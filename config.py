@@ -58,4 +58,4 @@ class CollectionTypes(Model):
         table_name = "collection_types"
 
 
-db.create_tables([Areas, GarbageTyeps, CollectionTypes])
+db.create_tables([Areas, CollectionTypes, GarbageTyeps])
