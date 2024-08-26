@@ -7,6 +7,7 @@ def create_candidate_area_reply(areas):
     for area in areas:
         result += f"{str(cnt)}. {area['area_name']}"
         cnt += 1
+        
     return result
 
 
