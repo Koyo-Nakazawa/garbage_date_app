@@ -22,6 +22,8 @@ def create_collection_type(collection_type_id, garbage_type_id, collection_date)
 
 
 if __name__ == "__main__":
+    # とりあえず一件ずつ作成する処理は完了
+    # CSVを読み込んで一括で作成する処理をあとで追加すること
     create_area("箱清水", 1)
     create_gabage_type("可燃ごみ")
     create_collection_type(1, 1, datetime.date(2024, 8, 26))
