@@ -1,5 +1,5 @@
 # import datetime
-import logging
+# import logging
 import os
 from dotenv import load_dotenv
 from peewee import Model, IntegerField, CharField, TimestampField, ForeignKeyField
