@@ -44,24 +44,23 @@ def output_collection_data(current_area):
 
     # return collection_dates
     for data in collection_dates:
-        print(data.collection_date, GarbageTyeps.get_by_id(data.garbage_type_id).garbage_type_name)
+        print(
+            data.collection_date.strftime("%m/%d %a"),
+            GarbageTyeps.get_by_id(data.garbage_type_id).garbage_type_name,
+        )
 
 
-# 日付の処理
-def test():
-    days = []
-    today = datetime.datetime.now()
-    days.append(today.strftime("%Y%m%d %a"))
-    for i in range(1, 8):
-        next_date = datetime.datetime.strptime(days[i - 1], "%Y%m%d %a") + datetime.timedelta(days=1)
-        days.append(next_date.strftime("%Y%m%d %a"))
-
-    print(days)
+def get_candidate_area(keyword):
+    areas = Areas.select().where(Areas.area_name.contains(keyword))
+    print(areas.count())
+    for area in areas:
+        print(area.area_id, area.area_name, area.collection_type_id)
 
 
 if __name__ == "__main__":
     # display_all_area()
     # display_all_garbage_type()
     # display_all_collection_type()
-    collection_data = output_collection_data("箱清水")
+    # collection_data = output_collection_data("箱清水")
     # test()
+    get_candidate_area("山")
