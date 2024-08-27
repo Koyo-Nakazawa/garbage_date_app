@@ -24,6 +24,7 @@ def display_all_collection_type():
         )
 
 
+# 向こう一週間のごみ収集データの取得 リストで返す
 def output_collection_data(current_area):
     join_cond = CollectionTypes.collection_type_id == Areas.collection_type_id
 
@@ -43,18 +44,21 @@ def output_collection_data(current_area):
     )
 
     # return collection_dates
-    for data in collection_dates:
-        print(
-            data.collection_date.strftime("%m/%d %a"),
-            GarbageTyeps.get_by_id(data.garbage_type_id).garbage_type_name,
-        )
+    # for data in collection_dates:
+    #     print(
+    #         data.collection_date.strftime("%m/%d %a"),
+    #         GarbageTyeps.get_by_id(data.garbage_type_id).garbage_type_name,
+    #     )
+    return collection_dates
 
 
+# 候補地の取得 リストで返す
 def get_candidate_area(keyword):
     areas = Areas.select().where(Areas.area_name.contains(keyword))
-    print(areas.count())
-    for area in areas:
-        print(area.area_id, area.area_name, area.collection_type_id)
+    # print(areas.count())
+    # for area in areas:
+    #     print(area.area_id, area.area_name, area.collection_type_id)
+    return areas
 
 
 if __name__ == "__main__":
