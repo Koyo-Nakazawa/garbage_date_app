@@ -1,5 +1,5 @@
 # import datetime
-import logging
+# import logging
 import os
 from dotenv import load_dotenv
 from peewee import Model, IntegerField, CharField, TimestampField, ForeignKeyField
@@ -9,9 +9,9 @@ from playhouse.db_url import connect
 load_dotenv(override=True)
 
 # 実行したSQLをログで出力する設定
-logger = logging.getLogger("peewee")
-logger.addHandler(logging.StreamHandler())
-logger.setLevel(logging.DEBUG)
+# logger = logging.getLogger("peewee")
+# logger.addHandler(logging.StreamHandler())
+# logger.setLevel(logging.DEBUG)
 
 
 # データベースへの接続設定
