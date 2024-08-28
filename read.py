@@ -49,7 +49,17 @@ def output_collection_data(current_area):
     #         data.collection_date.strftime("%m/%d %a"),
     #         GarbageTyeps.get_by_id(data.garbage_type_id).garbage_type_name,
     #     )
-    return collection_dates
+    result = []
+    day_names = ["日", "月", "火", "水", "木", "金", "月"]
+    for data in collection_dates:
+        result.append(
+            [
+                f"{data.collection_date.strftime('%m/%d')} ({day_names[int(data.collection_date.strftime('%w'))]})",
+                GarbageTyeps.get_by_id(data.garbage_type_id).garbage_type_name,
+            ]
+        )
+
+    return result
 
 
 # 候補地の取得 リストで返す
@@ -58,13 +68,17 @@ def get_candidate_area(keyword):
     # print(areas.count())
     # for area in areas:
     #     print(area.area_id, area.area_name, area.collection_type_id)
-    return areas
+    result = []
+    for area in areas:
+        result.append([area.area_id, area.area_name, area.collection_type_id])
+    return result
 
 
 if __name__ == "__main__":
     # display_all_area()
     # display_all_garbage_type()
     # display_all_collection_type()
-    # collection_data = output_collection_data("箱清水")
+    collection_data = output_collection_data("箱清水一")
+    print(collection_data)
     # test()
-    get_candidate_area("山")
+    print(get_candidate_area("園"))
