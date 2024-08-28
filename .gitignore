@@ -3,4 +3,5 @@
 db.sqlite
 __pycache__/
 *.xlsx
-*.txt
+自主制作中のあれこれ.txt
+発表用開発アプリ概要.txt
