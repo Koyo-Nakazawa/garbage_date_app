@@ -76,7 +76,7 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, messages=messages)
     elif sessions[event.source.user_id]["flag"]:
         sessions[event.source.user_id]["area"] = event.message.text
-        message = create_collection_dates_types_reply(sessions[event.source.user_id]["area"])
+        message = [create_collection_dates_types_reply(sessions[event.source.user_id]["area"])]
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
 
