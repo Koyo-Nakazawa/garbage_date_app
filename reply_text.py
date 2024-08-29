@@ -34,7 +34,7 @@ def create_collection_dates_types_reply(current_area):
         # print(f"{v[0]}  {v[1]}")
         result += f"{v[0]}  {v[1]}\n"
         if i == 0:
-            print(f"{'-'*8}今後の予定{'-'*8}")
+            # print(f"{'-'*8}今後の予定{'-'*8}")
             result += f"{'-'*8}今後の予定{'-'*8}\n"
 
     return result
