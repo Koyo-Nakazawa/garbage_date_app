@@ -20,7 +20,8 @@ from linebot.models import (
     URIAction,
 )
 from dotenv import load_dotenv
-from read import get_candidate_area, output_collection_data
+from read import get_candidate_area
+from reply_text import create_collection_dates_types_reply
 
 load_dotenv(override=True)
 
@@ -28,6 +29,7 @@ app = Flask(__name__)
 
 line_bot_api = LineBotApi(os.environ["ACCESS_TOKEN"])
 handler = WebhookHandler(os.environ["CHANNEL_SECRET"])
+sessions = {}
 
 
 @app.route("/")
@@ -58,11 +60,13 @@ def callback():
 # たぶんこの関数をがしがしいじっていく感じだと思われる。
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    # line_bot_api.reply_message(event.reply_token, TextSendMessage(text=event.message.text))
-    # line_bot_api.reply_message(event.reply_token, TextSendMessage(text=event.message.text))
+    # ユーザーidをもとにセッションを管理します
+    if event.source.user_id not in sessions.keys():
+        sessions[event.source.user_id] = {"flag": False, "area": None}
+
     if event.message.text == "ごみ":
-        # sessions[event.source.user_id]["flag"]=True
-        candidate_areas = get_candidate_area("園")
+        sessions[event.source.user_id]["flag"] = True
+        candidate_areas = get_candidate_area("箱")
         items = [
             QuickReplyButton(action=MessageAction(text=f"{area[1]}", label=f"{area[1]}"))
             for area in candidate_areas
@@ -70,6 +74,10 @@ def handle_message(event):
         # クイックリプライオブジェクトを作成
         messages = TextSendMessage(text="地区を選択してください", quick_reply=QuickReply(items=items))
         line_bot_api.reply_message(event.reply_token, messages=messages)
+    elif sessions[event.source.user_id]["flag"]:
+        sessions[event.source.user_id]["area"] = event.message.text
+        message = create_collection_dates_types_reply(sessions[event.source.user_id]["area"])
+        line_bot_api.reply_message(event.reply_token, messages=message)
 
 
 if __name__ == "__main__":
