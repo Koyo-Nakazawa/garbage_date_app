@@ -75,9 +75,9 @@ def handle_message(event):
         messages = TextSendMessage(text="地区を選択してください", quick_reply=QuickReply(items=items))
         line_bot_api.reply_message(event.reply_token, messages=messages)
     elif sessions[event.source.user_id]["flag"]:
-        sessions[event.source.user_id]["area"] = event.message.text
-        message = [create_collection_dates_types_reply(sessions[event.source.user_id]["area"])]
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
+        # sessions[event.source.user_id]["area"] = event.message.text
+        # message = [create_collection_dates_types_reply(sessions[event.source.user_id]["area"])]
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text="hello"))
 
 
 if __name__ == "__main__":
