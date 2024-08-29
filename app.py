@@ -2,8 +2,25 @@ import os
 from flask import Flask, request, abort
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, TextMessage, TextSendMessage
+from linebot.models import (
+    MessageEvent,
+    TextMessage,
+    LocationMessage,
+    TextSendMessage,
+    QuickReplyButton,
+    QuickReply,
+    MessageAction,
+    ImageMessage,
+    LocationAction,
+    TemplateSendMessage,
+    CarouselTemplate,
+    CarouselColumn,
+    PostbackAction,
+    CarouselTemplate,
+    URIAction,
+)
 from dotenv import load_dotenv
+from read import get_candidate_area, output_collection_data
 
 load_dotenv(override=True)
 
@@ -38,9 +55,21 @@ def callback():
     return "OK"
 
 
+# たぶんこの関数をがしがしいじっていく感じだと思われる。
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=event.message.text))
+    # line_bot_api.reply_message(event.reply_token, TextSendMessage(text=event.message.text))
+    # line_bot_api.reply_message(event.reply_token, TextSendMessage(text=event.message.text))
+    if event.message.text == "ごみ":
+        # sessions[event.source.user_id]["flag"]=True
+        candidate_areas = get_candidate_area("園")
+        items = [
+            QuickReplyButton(action=MessageAction(text=f"{area[1]}", label=f"{area[1]}"))
+            for area in candidate_areas
+        ]
+        # クイックリプライオブジェクトを作成
+        messages = TextSendMessage(text="地区を選択してください", quick_reply=QuickReply(items=items))
+        line_bot_api.reply_message(event.reply_token, messages=messages)
 
 
 if __name__ == "__main__":
