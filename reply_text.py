@@ -29,11 +29,15 @@ def create_collection_dates_types_reply(current_area):
             else:
                 days_one_week[data[0]] += f" {data[1]}"
 
+    result = ""
     for i, v in enumerate(days_one_week.items()):
-        print(f"{v[0]}  {v[1]}")
+        # print(f"{v[0]}  {v[1]}")
+        result += f"{v[0]}  {v[1]}\n"
         if i == 0:
             print(f"{'-'*8}今後の予定{'-'*8}")
+            result += f"{'-'*8}今後の予定{'-'*8}\n"
 
+    return result
 
 # 向こう一週間の日付をキーとした辞書を返すもの
 def get_days_one_week():
