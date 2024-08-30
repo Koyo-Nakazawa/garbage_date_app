@@ -20,7 +20,7 @@ from linebot.models import (
     URIAction,
 )
 from dotenv import load_dotenv
-from read import get_candidate_area
+from read import get_candidate_area, display_all_area
 from reply_text import create_collection_dates_types_reply
 from bs4 import BeautifulSoup
 import requests
@@ -87,6 +87,7 @@ def callback():
 def handle_message(event):
     # ユーザーidをもとにセッションを管理します
     print(sessions)
+    print(display_all_area())
     if event.source.user_id not in sessions.keys():
         sessions[event.source.user_id] = {"flag": False, "area": None}
 
