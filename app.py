@@ -93,6 +93,7 @@ def handle_message(event):
     if event.message.text == "ごみ":
         sessions[event.source.user_id]["flag"] = True
         candidate_areas = get_candidate_area("箱")
+        print(candidate_areas)
         items = [
             QuickReplyButton(action=MessageAction(text=f"{area[1]}", label=f"{area[1]}"))
             for area in candidate_areas
