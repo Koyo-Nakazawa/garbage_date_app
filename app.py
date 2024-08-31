@@ -103,68 +103,10 @@ def handle_message(event):
         # line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
     # 関係ないワードは
     else:
-        messages = [f"ちょっと何言ってるかわかりません。"]
+        messages = ["ちょっと何言ってるかわかりません。"]
         # line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
     line_bot_api.reply_message(event.reply_token, messages=messages)
-
-
-# 位置情報を受け取ったときの処理
-# @handler.add(MessageEvent, message=LocationMessage)
-# def handle_location(event):
-#     latitude = event.message.latitude
-#     longitude = event.message.longitude
-#     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=f"{latitude, longitude}"))
-#     print(latitude, longitude)
-
-    # global sessions, google_api_key, google_map_url
-    # # セッションで検索する要件( 飲食店の種類, 位置情報 )があるか確認
-    # if sessions[event.source.user_id]["flag"] and sessions[event.source.user_id]["food"]:
-    #     latitude = event.message.latitude
-    #     longitude = event.message.longitude
-    #     # thumnailImage
-    #     data = find_place_by_geoinfo(
-    #         latitude=latitude, longitude=longitude, keyword=sessions[event.source.user_id]["food"]
-    #     )
-    #     columns = []
-    #     # カルーセルメッセージは最大10件までしか表示できない点に注意
-    #     for data in range(data["results"][:10]):
-    #         try:
-    #             photo_reference = data["photos"][0]["photo_reference"]
-    #             image_url = get_photoURL(photo_reference)
-    #             # shop_name and shop_rating
-    #             shop_name = data["name"]
-    #             like_num = data["rating"]
-    #             place_id = data["place_id"]
-    #             user_ratings_total = data["user_ratings_total"]
-    #             latitude = data["geometry"]["location"]["lat"]
-    #             longitude = data["geometry"]["location"]["lng"]
-
-    #             # 対象の飲食店におけるgooglemapのURLを作成
-    #             map_url = google_map_url + f"&query={latitude}%2C{longitude}&quary_place_id={place_id}"
-    #             # カルーセルメッセージオブジェクトを作成
-    #             carousel = make_carousel(
-    #                 thumbnail_image_url=image_url,
-    #                 shop_name=shop_name,
-    #                 like=like_num,
-    #                 user_ratings_total=user_ratings_total,
-    #                 map_url=map_url,
-    #             )
-    #             columns.append(carousel)
-    #         except:
-    #             continue
-    #     # 対象の飲食店が1店舗もない場合の判別
-    #     if len(columns) >= 1:
-    #         message = TextSendMessage(text="近くにこんなお店があるみたい")
-    #         line_bot_api.reply_message(event.reply_token, message)
-    #         carousel_template_message = TemplateSendMessage(
-    #             alt_text="Carousel template", template=CarouselTemplate(columns=columns)
-    #         )
-    #         time.sleep(0.4)
-    #         line_bot_api.push_message(event.source.user_id, carousel_template_message)
-    #     else:
-    #         message = TextSendMessage(text="1km以内に候補が見つかりませんでした")
-    #         line_bot_api.reply_message(event.reply_token, messages=mssage)
 
 
 if __name__ == "__main__":
