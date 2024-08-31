@@ -22,7 +22,6 @@ from linebot.models import (
 from dotenv import load_dotenv
 from read import get_candidate_area, display_all_area
 from reply_text import create_collection_dates_types_reply
-import json
 
 
 load_dotenv(override=True)
@@ -47,7 +46,6 @@ def callback():
     signature = request.headers["X-Line-Signature"]
     # リクエストの内容をテキストで取得
     body = request.get_data(as_text=True)
-    # body = json.dumps(body)
     # ログに出力
     app.logger.info("Request body: " + body)
 
@@ -65,27 +63,27 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=event.message.text))
-    # # ユーザーidをもとにセッションを管理します
-    # print(sessions)
-    # if event.source.user_id not in sessions.keys():
-    #     sessions[event.source.user_id] = {"flag": False, "first": True, "area": None}
+    # ユーザーidをもとにセッションを管理します
+    print(sessions)
+    if event.source.user_id not in sessions.keys():
+        sessions[event.source.user_id] = {"flag": False, "first": True, "area": None}
 
-    # # 受け取ったメッセージが「ごみ」のとき
-    # if event.message.text == "ごみ":
-    #     sessions[event.source.user_id]["flag"] = True
+    # 受け取ったメッセージが「ごみ」のとき
+    if event.message.text == "ごみ":
+        sessions[event.source.user_id]["flag"] = True
 
-    #     # 初回であれば、エリア特定のやりとりをする
-    #     if sessions[event.source.user_id]["first"]:
-    #         message = ["町名を入力してください（初回のみ）"]
+        # 初回であれば、エリア特定のやりとりをする
+        if sessions[event.source.user_id]["first"]:
+            message = ["町名を入力してください（初回のみ）"]
 
-    #     # 初回でなければ、収集日の情報を返信する
-    #     else:
-    #         message = create_collection_dates_types_reply(sessions[event.source.user_id]["area"])
+        # 初回でなければ、収集日の情報を返信する
+        else:
+            message = create_collection_dates_types_reply(sessions[event.source.user_id]["area"])
 
-    #     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
-    # # 受け取ったメッセージが「ごみ」以外のとき
-    # # 初回の町名を受け取ったとき
+    # 受け取ったメッセージが「ごみ」以外のとき
+    # 初回の町名を受け取ったとき
     # elif sessions[event.source.user_id]["first"]:
     #     sessions[event.source.user_id]["first"] = False
     #     candidate_areas = get_candidate_area(event.message.text)
