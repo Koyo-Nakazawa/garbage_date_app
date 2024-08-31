@@ -64,6 +64,7 @@ def callback():
 def handle_message(event):
     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=event.message.text))
     # ユーザーidをもとにセッションを管理します
+    global sessions
     print(sessions)
     if event.source.user_id not in sessions.keys():
         sessions[event.source.user_id] = {"flag": False, "first": True, "area": None}
@@ -74,7 +75,7 @@ def handle_message(event):
 
         # 初回であれば、エリア特定のやりとりをする
         if sessions[event.source.user_id]["first"]:
-            message = ["町名を入力してください（初回のみ）"]
+            message = "町名を入力してください（初回のみ）"
 
         # 初回でなければ、収集日の情報を返信する
         else:
