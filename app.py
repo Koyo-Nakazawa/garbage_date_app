@@ -75,7 +75,7 @@ def handle_message(event):
 
         # 初回であれば、エリア特定のやりとりをする
         if sessions[event.source.user_id]["first"]:
-            message = ["町名を入力してください（初回のみ）"]
+            message = "町名を入力してください（初回のみ）"
 
         # 初回でなければ、収集日の情報を返信する
         else:
