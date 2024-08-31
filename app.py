@@ -47,7 +47,7 @@ def callback():
     signature = request.headers["X-Line-Signature"]
     # リクエストの内容をテキストで取得
     body = request.get_data(as_text=True)
-    body = json.dumps(body)
+    # body = json.dumps(body)
     # ログに出力
     app.logger.info("Request body: " + body)
 
@@ -64,47 +64,48 @@ def callback():
 # テキストメッセージを受け取ったときの処理
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    # ユーザーidをもとにセッションを管理します
-    print(sessions)
-    if event.source.user_id not in sessions.keys():
-        sessions[event.source.user_id] = {"flag": False, "first": True, "area": None}
+    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=event.message.text))
+    # # ユーザーidをもとにセッションを管理します
+    # print(sessions)
+    # if event.source.user_id not in sessions.keys():
+    #     sessions[event.source.user_id] = {"flag": False, "first": True, "area": None}
 
-    # 受け取ったメッセージが「ごみ」のとき
-    if event.message.text == "ごみ":
-        sessions[event.source.user_id]["flag"] = True
+    # # 受け取ったメッセージが「ごみ」のとき
+    # if event.message.text == "ごみ":
+    #     sessions[event.source.user_id]["flag"] = True
 
-        # 初回であれば、エリア特定のやりとりをする
-        if sessions[event.source.user_id]["first"]:
-            message = ["町名を入力してください（初回のみ）"]
+    #     # 初回であれば、エリア特定のやりとりをする
+    #     if sessions[event.source.user_id]["first"]:
+    #         message = ["町名を入力してください（初回のみ）"]
 
-        # 初回でなければ、収集日の情報を返信する
-        else:
-            message = create_collection_dates_types_reply(sessions[event.source.user_id]["area"])
+    #     # 初回でなければ、収集日の情報を返信する
+    #     else:
+    #         message = create_collection_dates_types_reply(sessions[event.source.user_id]["area"])
 
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
+    #     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
-    # 受け取ったメッセージが「ごみ」以外のとき
-    # 初回の町名を受け取ったとき
-    elif sessions[event.source.user_id]["first"]:
-        sessions[event.source.user_id]["first"] = False
-        candidate_areas = get_candidate_area(event.message.text)
-        items = [
-            QuickReplyButton(action=MessageAction(text=f"{area[1]}", label=f"{area[1]}"))
-            for area in candidate_areas
-        ]
-        # クイックリプライオブジェクトを作成
-        messages = TextSendMessage(text="地区を選択してください", quick_reply=QuickReply(items=items))
-        line_bot_api.reply_message(event.reply_token, messages=messages)
-    # 候補地から地区名を受け取ったとき
-    elif sessions[event.source.user_id]["area"] is None:
-        sessions[event.source.user_id]["area"] = event.message.text
-        message = f"あなたの地区を{sessions[event.source.user_id]['area']}に決定しました。\n次回から収集日が出力されます。"
+    # # 受け取ったメッセージが「ごみ」以外のとき
+    # # 初回の町名を受け取ったとき
+    # elif sessions[event.source.user_id]["first"]:
+    #     sessions[event.source.user_id]["first"] = False
+    #     candidate_areas = get_candidate_area(event.message.text)
+    #     items = [
+    #         QuickReplyButton(action=MessageAction(text=f"{area[1]}", label=f"{area[1]}"))
+    #         for area in candidate_areas
+    #     ]
+    #     # クイックリプライオブジェクトを作成
+    #     messages = TextSendMessage(text="地区を選択してください", quick_reply=QuickReply(items=items))
+    #     line_bot_api.reply_message(event.reply_token, messages=messages)
+    # # 候補地から地区名を受け取ったとき
+    # elif sessions[event.source.user_id]["area"] is None:
+    #     sessions[event.source.user_id]["area"] = event.message.text
+    #     message = f"あなたの地区を{sessions[event.source.user_id]['area']}に決定しました。\n次回から収集日が出力されます。"
 
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
-    # 関係ないワードは
-    else:
-        message = "ちょっと何言ってるかわかりません。"
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
+    #     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
+    # # 関係ないワードは
+    # else:
+    #     message = "ちょっと何言ってるかわかりません。"
+    #     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
 
 if __name__ == "__main__":
