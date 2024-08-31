@@ -65,6 +65,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     # ユーザーidをもとにセッションを管理します
+    print(sessions)
     if event.source.user_id not in sessions.keys():
         sessions[event.source.user_id] = {"flag": False, "first": True, "area": None}
 
