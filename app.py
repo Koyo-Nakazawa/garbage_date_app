@@ -81,7 +81,7 @@ def handle_message(event):
         else:
             message = create_collection_dates_types_reply(sessions[event.source.user_id]["area"])
 
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text="test"))
 
     # 受け取ったメッセージが「ごみ」以外のとき
     # 初回の町名を受け取ったとき
