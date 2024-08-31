@@ -22,6 +22,7 @@ from linebot.models import (
 from dotenv import load_dotenv
 from read import get_candidate_area, display_all_area
 from reply_text import create_collection_dates_types_reply
+import json
 
 
 load_dotenv(override=True)
@@ -46,6 +47,7 @@ def callback():
     signature = request.headers["X-Line-Signature"]
     # リクエストの内容をテキストで取得
     body = request.get_data(as_text=True)
+    body = json.dumps(body)
     # ログに出力
     app.logger.info("Request body: " + body)
 
@@ -96,13 +98,12 @@ def handle_message(event):
     elif sessions[event.source.user_id]["area"] is None:
         sessions[event.source.user_id]["area"] = event.message.text
         message = f"あなたの地区を{sessions[event.source.user_id]['area']}に決定しました。\n次回から収集日が出力されます。"
-        
+
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
     # 関係ないワードは
     else:
         message = "ちょっと何言ってるかわかりません。"
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
-
 
 
 if __name__ == "__main__":
