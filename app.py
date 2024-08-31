@@ -98,7 +98,7 @@ def handle_message(event):
     # 候補地から地区名を受け取ったとき
     elif sessions[event.source.user_id]["area"] is None:
         sessions[event.source.user_id]["area"] = event.message.text
-        message = f"あなたの地区を{sessions[event.source.user_id]['area']}に決定しました。\n次回から収集日が出力されます。"
+        message = f"あなたの地区を「{sessions[event.source.user_id]['area']}」に決定しました。\n次回から収集日が出力されます。"
 
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
     # 関係ないワードは
