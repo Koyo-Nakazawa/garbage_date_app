@@ -101,6 +101,13 @@ def handle_message(event):
         message = f"あなたの地区を「{sessions[event.source.user_id]['area']}」に決定しました。\n次回から収集日が出力されます。"
 
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
+
+    # 地区の変更（引っ越し）
+    elif event.message.text in ["引っ越し", "引越", "引越し", "ひっこし"]:
+        sessions[event.source.user_id]["first"] = True
+        sessions[event.source.user_id]["area"] = None
+        message = "引越し先の町名を入力してください。"
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
     # 関係ないワードは
     else:
         message = "ちょっと何言ってるかわかりません。"
