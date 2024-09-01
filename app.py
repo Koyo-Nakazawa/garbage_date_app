@@ -95,8 +95,8 @@ def handle_message(event):
     # 候補地から地区名を受け取ったとき
     elif sessions[event.source.user_id]["area"] is None:
         sessions[event.source.user_id]["area"] = event.message.text
-        message = f"あなたの地区を「{sessions[event.source.user_id]['area']}」に決定しました。\n次回から収集日が出力されます。"
-
+        message = f"あなたの地区を「{sessions[event.source.user_id]['area']}」に決定しました。\n"
+        message += create_collection_dates_types_reply(sessions[event.source.user_id]["area"])
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
     # 地区の変更（引っ越し）
@@ -105,9 +105,11 @@ def handle_message(event):
         sessions[event.source.user_id]["area"] = None
         message = "引っ越し先の町名を入力してください。"
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
-    # 関係ないワードは
+    # 関係ないワードのとき
     else:
         message = "ちょっと何言ってるかわかりません。"
+        message += "\n・「ごみ」と入力すると、収集日が出力されます。（初回のみ地区の選択）"
+        message += "\n・一度選択した地区名を変更する場合は「引っ越し」と入力してください。"
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
 
