@@ -62,10 +62,7 @@ def callback():
 # テキストメッセージを受け取ったときの処理
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    # line_bot_api.reply_message(event.reply_token, TextSendMessage(text=event.message.text))
     # ユーザーidをもとにセッションを管理します
-    global sessions
-    print(sessions)
     if event.source.user_id not in sessions.keys():
         sessions[event.source.user_id] = {"flag": False, "first": True, "area": None}
 
@@ -106,7 +103,7 @@ def handle_message(event):
     elif event.message.text in ["引っ越し", "引越", "引越し", "ひっこし"]:
         sessions[event.source.user_id]["first"] = True
         sessions[event.source.user_id]["area"] = None
-        message = "引越し先の町名を入力してください。"
+        message = "引っ越し先の町名を入力してください。"
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
     # 関係ないワードは
     else:
