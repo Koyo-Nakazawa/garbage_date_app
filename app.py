@@ -97,8 +97,9 @@ def handle_message(event):
         sessions[event.source.user_id]["area"] = event.message.text
         message = f"あなたの地区を「{sessions[event.source.user_id]['area']}」に決定しました。\n"
         print(sessions[event.source.user_id]['area'])
-        print(message)
         message += create_collection_dates_types_reply(sessions[event.source.user_id]["area"])
+        print(create_collection_dates_types_reply(sessions[event.source.user_id]["area"]))
+        print(message)
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
     # 地区の変更（引っ越し）
