@@ -20,7 +20,7 @@ from linebot.models import (
     URIAction,
 )
 from dotenv import load_dotenv
-from read import get_candidate_area, display_all_area
+from read import get_candidate_area, display_all_area, output_collection_data
 from reply_text import create_collection_dates_types_reply
 
 
@@ -98,8 +98,9 @@ def handle_message(event):
         message = f"あなたの地区を「{sessions[event.source.user_id]['area']}」に決定しました。\n"
         print(sessions[event.source.user_id]['area'])
         message += create_collection_dates_types_reply(sessions[event.source.user_id]["area"])
-        print(create_collection_dates_types_reply(sessions[event.source.user_id]["area"]))
-        print(message)
+        # print(create_collection_dates_types_reply(sessions[event.source.user_id]["area"]))
+        print(output_collection_data(sessions[event.source.user_id]["area"]))
+        # print(message)
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
     # 地区の変更（引っ越し）
