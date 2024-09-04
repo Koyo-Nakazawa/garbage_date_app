@@ -39,6 +39,7 @@ def create_collection_dates_types_reply(current_area):
 
     return result
 
+
 # 向こう一週間の日付をキーとした辞書を返すもの
 def get_days_one_week():
     day_names = ["日", "月", "火", "水", "木", "金", "月"]
@@ -54,7 +55,7 @@ def get_days_one_week():
 
 
 if __name__ == "__main__":
-    candidate_areas = create_candidate_area_reply("箱")
-    current_area_index = int(input("該当する地域を番号で指定してください : "))
-    current_area = candidate_areas[current_area_index - 1][1]
-    create_collection_dates_types_reply(current_area)
+    # candidate_areas = create_candidate_area_reply("箱")
+    # current_area_index = int(input("該当する地域を番号で指定してください : "))
+    # current_area = candidate_areas[current_area_index - 1][1]
+    print(create_collection_dates_types_reply("箱清水一～二丁目"))
