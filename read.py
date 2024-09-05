@@ -31,6 +31,7 @@ def output_collection_data(current_area):
     join_cond = CollectionTypes.collection_type_id == Areas.collection_type_id
 
     today = datetime.datetime.now(ZoneInfo("Asia/Tokyo"))
+    # today = datetime.datetime.now()
     today = datetime.datetime(today.year, today.month, today.day, 0, 0, 0)
     date_after_one_week = today + datetime.timedelta(days=7)
     where_cond = (
@@ -53,10 +54,13 @@ def output_collection_data(current_area):
     #         GarbageTyeps.get_by_id(data.garbage_type_id).garbage_type_name,
     #     )
     result = []
-    day_names = ["日", "月", "火", "水", "木", "金", "土"]
+    day_names = ["月", "火", "水", "木", "金", "土", "日"]
     jst = pytz.timezone('Asia/Tokyo')
     for data in collection_dates:
+        print(data.collection_date)
         date = data.collection_date.astimezone(jst)
+        # date = data.collection_date
+        print(date.weekday())
         result.append(
             [
                 f"{date.strftime('%m/%d')} ({day_names[date.weekday()]})",
