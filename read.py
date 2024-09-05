@@ -1,5 +1,6 @@
 from config import Areas, GarbageTyeps, CollectionTypes
 import datetime
+from zoneinfo import ZoneInfo
 
 
 def display_all_area():
@@ -28,7 +29,8 @@ def display_all_collection_type():
 def output_collection_data(current_area):
     join_cond = CollectionTypes.collection_type_id == Areas.collection_type_id
 
-    today = datetime.datetime.now()
+    today = datetime.datetime.now(ZoneInfo("Asia/Tokyo"))
+    today = datetime.datetime(today.year, today.month, today.day, 0, 0, 0)
     date_after_one_week = today + datetime.timedelta(days=7)
     where_cond = (
         (Areas.area_name == current_area)
@@ -50,7 +52,7 @@ def output_collection_data(current_area):
     #         GarbageTyeps.get_by_id(data.garbage_type_id).garbage_type_name,
     #     )
     result = []
-    day_names = ["日", "月", "火", "水", "木", "金", "月"]
+    day_names = ["日", "月", "火", "水", "木", "金", "土"]
     for data in collection_dates:
         result.append(
             [

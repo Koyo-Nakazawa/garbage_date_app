@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, abort
+from flask import Flask, request, abort, render_template
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import (
@@ -36,7 +36,9 @@ sessions = {}
 
 @app.route("/")
 def index():
-    return "You call index()"
+    test = create_collection_dates_types_reply("箱清水一～二丁目").split("\n")
+    print(test)
+    return render_template("index.html", test=test)
 
 
 @app.route("/callback", methods=["POST"])
@@ -118,5 +120,7 @@ def handle_message(event):
 
 
 if __name__ == "__main__":
-    port = int(os.getenv("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    # port = int(os.getenv("PORT", 5000))
+    # app.run(host="0.0.0.0", port=port)
+    port = int(os.getenv("PORT", 8000))
+    app.run(port=port, debug=True)
