@@ -42,7 +42,7 @@ def create_collection_dates_types_reply(current_area):
 
 # 向こう一週間の日付をキーとした辞書を返すもの
 def get_days_one_week():
-    day_names = ["日", "月", "火", "水", "木", "金", "月"]
+    day_names = ["日", "月", "火", "水", "木", "金", "土"]
     days = {}
     today = datetime.datetime.now()
     days[f"{today.strftime('%m/%d')} ({day_names[int(today.strftime('%w'))]})"] = "なし"
