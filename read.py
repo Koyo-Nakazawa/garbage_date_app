@@ -33,6 +33,7 @@ def output_collection_data(current_area):
     today = datetime.datetime.now(ZoneInfo("Asia/Tokyo"))
     # today = datetime.datetime.now()
     today = datetime.datetime(today.year, today.month, today.day, 0, 0, 0)
+    print(today)
     date_after_one_week = today + datetime.timedelta(days=7)
     where_cond = (
         (Areas.area_name == current_area)
