@@ -59,8 +59,8 @@ def output_collection_data(current_area):
     jst = pytz.timezone('Asia/Tokyo')
     for data in collection_dates:
         print(data.collection_date)
-        date = data.collection_date.astimezone(jst)
-        # date = data.collection_date
+        # date = data.collection_date.astimezone(jst)
+        date = data.collection_date
         print(date.weekday())
         result.append(
             [
