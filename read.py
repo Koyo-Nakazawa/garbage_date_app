@@ -1,6 +1,7 @@
 from config import Areas, GarbageTyeps, CollectionTypes
 import datetime
 from zoneinfo import ZoneInfo
+import pytz
 
 
 def display_all_area():
@@ -53,10 +54,12 @@ def output_collection_data(current_area):
     #     )
     result = []
     day_names = ["日", "月", "火", "水", "木", "金", "土"]
+    jst = pytz.timezone('Asia/Tokyo')
     for data in collection_dates:
+        date = data.collection_date.astimezone(jst)
         result.append(
             [
-                f"{data.collection_date.strftime('%m/%d')} ({day_names[int(data.collection_date.strftime('%w'))]})",
+                f"{date.strftime('%m/%d')} ({day_names[date.weekday()]})",
                 GarbageTyeps.get_by_id(data.garbage_type_id).garbage_type_name,
             ]
         )
