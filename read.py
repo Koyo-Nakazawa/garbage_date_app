@@ -39,10 +39,10 @@ def output_collection_data(current_area):
 
     # today = datetime.datetime.now(ZoneInfo("Asia/Tokyo"))
     today = datetime.datetime.now()
-    today = datetime.datetime(today.year, today.month, today.day, 0, 0, 0)
-    jst = pytz.timezone('Asia/Tokyo')
-    today = jst.localize(today)
-    date_after_one_week = today + datetime.timedelta(days=7)
+    today = today + datetime.timedelta(hours=9)
+    # jst = pytz.timezone('Asia/Tokyo')
+    # today = jst.localize(today)
+    date_after_one_week = today.date.timedelta(days=7)
     where_cond = (
         (Areas.area_name == current_area)
         & (CollectionTypes.collection_date.between(today, date_after_one_week))
@@ -70,7 +70,7 @@ def output_collection_data(current_area):
         # date = data.collection_date.astimezone(jst)
         date = data.collection_date
         print(date)
-        date = datetime.datetime(date.year, date.month, date.day, 0, 0, 0)
+        date = date + datetime.timedelta(hours=9)
         print(date)
         # print(date.weekday())
         result.append(
