@@ -39,7 +39,7 @@ def output_collection_data(current_area):
 
     # today = datetime.datetime.now(ZoneInfo("Asia/Tokyo"))
     today = datetime.datetime.now()
-    today = today + datetime.timedelta(hours=9)
+    # today = today + datetime.timedelta(hours=9)
     # jst = pytz.timezone('Asia/Tokyo')
     # today = jst.localize(today)
     date_after_one_week = today + datetime.timedelta(days=7)
