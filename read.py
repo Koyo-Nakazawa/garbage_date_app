@@ -66,13 +66,13 @@ def output_collection_data(current_area):
     #     )
     result = []
     day_names = ["月", "火", "水", "木", "金", "土", "日"]
-    # jst = pytz.timezone('Asia/Tokyo')
+    jst = pytz.timezone('Asia/Tokyo')
     for data in collection_dates:
         # print(data.collection_date)
-        # date = data.collection_date.astimezone(jst)
         date = data.collection_date
+        date = data.collection_date.astimezone(jst)
         print(date)
-        date = date + datetime.timedelta(hours=9)
+        # date = date + datetime.timedelta(hours=9)
         print(date)
         # print(date.weekday())
         result.append(
