@@ -19,12 +19,15 @@ def display_all_garbage_type():
 def display_all_collection_type():
     collection_types = CollectionTypes.select()
     cnt = 0
+    jst = pytz.timezone('Asia/Tokyo')
     for collection_type in collection_types:
         cnt += 1
+        date = collection_type.collection_date
         print(
             collection_type.collection_type_id,
             collection_type.garbage_type_id,
-            collection_type.collection_date,
+            # collection_type.collection_date,
+            jst.localize(date)
         )
         if cnt >= 10:
             break
