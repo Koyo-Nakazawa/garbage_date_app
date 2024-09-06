@@ -18,12 +18,16 @@ def display_all_garbage_type():
 
 def display_all_collection_type():
     collection_types = CollectionTypes.select()
+    cnt = 0
     for collection_type in collection_types:
+        cnt += 1
         print(
             collection_type.collection_type_id,
             collection_type.garbage_type_id,
             collection_type.collection_date,
         )
+        if cnt >= 10:
+            break
 
 
 # 向こう一週間のごみ収集データの取得 リストで返す
@@ -91,5 +95,6 @@ if __name__ == "__main__":
     # collection_data = output_collection_data("箱清水一")
     # print(collection_data)
     # test()
-    print(get_candidate_area("箱清水"))
-    print(output_collection_data("箱清水一～二丁目"))
+    # print(get_candidate_area("箱清水"))
+    # print(output_collection_data("箱清水一～二丁目"))
+    display_all_collection_type()

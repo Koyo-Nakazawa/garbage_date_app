@@ -20,7 +20,7 @@ from linebot.models import (
     URIAction,
 )
 from dotenv import load_dotenv
-from read import get_candidate_area, display_all_area, output_collection_data
+from read import get_candidate_area, display_all_collection_type, output_collection_data
 from reply_text import create_collection_dates_types_reply
 
 
@@ -65,6 +65,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     # ユーザーidをもとにセッションを管理します
+    display_all_collection_type()
     if event.source.user_id not in sessions.keys():
         sessions[event.source.user_id] = {"flag": False, "first": True, "area": None}
 
