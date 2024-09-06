@@ -37,9 +37,9 @@ def display_all_collection_type():
 def output_collection_data(current_area):
     join_cond = CollectionTypes.collection_type_id == Areas.collection_type_id
 
-    # today = datetime.datetime.now(ZoneInfo("Asia/Tokyo"))
-    today = datetime.datetime.now()
-    today = today + datetime.timedelta(hours=9)
+    today = datetime.datetime.now(ZoneInfo("Asia/Tokyo"))
+    # today = datetime.datetime.now()
+    today = datetime.datetime(today.year, today.month, today.day, 0, 0, 0)
     print(f"today:{today}")
     # jst = pytz.timezone('Asia/Tokyo')
     # today = jst.localize(today)
