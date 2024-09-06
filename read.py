@@ -37,10 +37,11 @@ def display_all_collection_type():
 def output_collection_data(current_area):
     join_cond = CollectionTypes.collection_type_id == Areas.collection_type_id
 
-    today = datetime.datetime.now(ZoneInfo("Asia/Tokyo"))
-    # today = datetime.datetime.now()
+    # today = datetime.datetime.now(ZoneInfo("Asia/Tokyo"))
+    today = datetime.datetime.now()
     today = datetime.datetime(today.year, today.month, today.day, 0, 0, 0)
-    print(today)
+    jst = pytz.timezone('Asia/Tokyo')
+    today = jst.localize(today)
     date_after_one_week = today + datetime.timedelta(days=7)
     where_cond = (
         (Areas.area_name == current_area)
@@ -63,12 +64,13 @@ def output_collection_data(current_area):
     #     )
     result = []
     day_names = ["月", "火", "水", "木", "金", "土", "日"]
-    jst = pytz.timezone('Asia/Tokyo')
+    # jst = pytz.timezone('Asia/Tokyo')
     for data in collection_dates:
-        print(data.collection_date)
+        # print(data.collection_date)
         # date = data.collection_date.astimezone(jst)
         date = data.collection_date
-        print(date.weekday())
+        date = jst.localize(date)
+        # print(date.weekday())
         result.append(
             [
                 f"{date.strftime('%m/%d')} ({day_names[date.weekday()]})",
