@@ -69,7 +69,9 @@ def output_collection_data(current_area):
         # print(data.collection_date)
         # date = data.collection_date.astimezone(jst)
         date = data.collection_date
+        print(date)
         date = datetime.datetime(date.year, date.month, date.day, 0, 0, 0)
+        print(date)
         # print(date.weekday())
         result.append(
             [
