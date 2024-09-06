@@ -42,7 +42,7 @@ def output_collection_data(current_area):
     today = today + datetime.timedelta(hours=9)
     # jst = pytz.timezone('Asia/Tokyo')
     # today = jst.localize(today)
-    date_after_one_week = today.date.timedelta(days=7)
+    date_after_one_week = today + datetime.timedelta(days=7)
     where_cond = (
         (Areas.area_name == current_area)
         & (CollectionTypes.collection_date.between(today, date_after_one_week))
