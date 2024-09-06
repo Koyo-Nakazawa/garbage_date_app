@@ -37,7 +37,6 @@ sessions = {}
 @app.route("/")
 def index():
     test = create_collection_dates_types_reply("箱清水一～二丁目").split("\n")
-    print(test)
     return render_template("index.html", test=test)
 
 
@@ -99,11 +98,8 @@ def handle_message(event):
     elif sessions[event.source.user_id]["area"] is None:
         sessions[event.source.user_id]["area"] = event.message.text
         message = f"あなたの地区を「{sessions[event.source.user_id]['area']}」に決定しました。\n"
-        print(sessions[event.source.user_id]['area'])
         message += create_collection_dates_types_reply(sessions[event.source.user_id]["area"])
-        # print(create_collection_dates_types_reply(sessions[event.source.user_id]["area"]))
         print(output_collection_data(sessions[event.source.user_id]["area"]))
-        # print(message)
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
     # 地区の変更（引っ越し）
@@ -121,7 +117,7 @@ def handle_message(event):
 
 
 if __name__ == "__main__":
-    # port = int(os.getenv("PORT", 5000))
-    # app.run(host="0.0.0.0", port=port)
-    port = int(os.getenv("PORT", 8000))
-    app.run(port=port, debug=True)
+    port = int(os.getenv("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
+    # port = int(os.getenv("PORT", 8000))
+    # app.run(port=port, debug=True)
