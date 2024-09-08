@@ -87,12 +87,15 @@ def handle_message(event):
     elif sessions[event.source.user_id]["first"]:
         sessions[event.source.user_id]["first"] = False
         candidate_areas = get_candidate_area(event.message.text)
-        items = [
-            QuickReplyButton(action=MessageAction(text=f"{area[1]}", label=f"{area[1]}"))
-            for area in candidate_areas
-        ]
-        # クイックリプライオブジェクトを作成
-        messages = TextSendMessage(text="地区を選択してください", quick_reply=QuickReply(items=items))
+        if candidate_areas:
+            items = [
+                QuickReplyButton(action=MessageAction(text=f"{area[1]}", label=f"{area[1]}"))
+                for area in candidate_areas
+            ]
+            # クイックリプライオブジェクトを作成
+            messages = TextSendMessage(text="地区を選択してください", quick_reply=QuickReply(items=items))
+        else:
+            messages = TextSendMessage(text="エラーが発生しました。")
         line_bot_api.reply_message(event.reply_token, messages=messages)
     # 候補地から地区名を受け取ったとき
     elif sessions[event.source.user_id]["area"] is None:
