@@ -74,9 +74,8 @@ def get_candidate_area(keyword):
     result = []
     for area in areas:
         result.append([area.area_id, area.area_name, area.collection_type_id])
-    print(len(result))
     return result
 
 
 if __name__ == "__main__":
-    print(get_candidate_area("都南"))
+    pass

@@ -85,9 +85,9 @@ def handle_message(event):
     # 受け取ったメッセージが「ごみ」以外のとき
     # 初回の町名を受け取ったとき
     elif sessions[event.source.user_id]["first"]:
-        sessions[event.source.user_id]["first"] = False
         candidate_areas = get_candidate_area(event.message.text)
         if candidate_areas:
+            sessions[event.source.user_id]["first"] = False
             items = [
                 QuickReplyButton(action=MessageAction(text=f"{area[1]}", label=f"{area[1]}"))
                 for area in candidate_areas
@@ -95,7 +95,13 @@ def handle_message(event):
             # クイックリプライオブジェクトを作成
             messages = TextSendMessage(text="地区を選択してください", quick_reply=QuickReply(items=items))
         else:
-            messages = TextSendMessage(text="エラーが発生しました。")
+            text = "※※※対象外の地域が返信されました※※※"
+            text += "\n・都南地区、玉山地区は対象外です。"
+            text += "\n・返信した町名が正しいか確認してください。"
+            text += "\n　(漢字が違う場合も対象外と判定されてしまいます。)"
+
+            messages = TextSendMessage(text=text)
+
         line_bot_api.reply_message(event.reply_token, messages=messages)
     # 候補地から地区名を受け取ったとき
     elif sessions[event.source.user_id]["area"] is None:
@@ -106,16 +112,18 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
     # 地区の変更（引っ越し）
-    elif event.message.text in ["引っ越し", "引越", "引越し", "ひっこし"]:
+    elif event.message.text == "引っ越し":
         sessions[event.source.user_id]["first"] = True
         sessions[event.source.user_id]["area"] = None
         message = "引っ越し先の町名を入力してください。"
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
     # 関係ないワードのとき
     else:
-        message = "ちょっと何言ってるかわかりません。"
-        message += "\n・「ごみ」と入力すると、収集日が出力されます。（初回のみ地区の選択）"
-        message += "\n・一度選択した地区名を変更する場合は「引っ越し」と入力してください。"
+        message = "メニューのボタンから選択してください。"
+        message += "\n・「収集日確認」（初回のみ地区の選択）"
+        message += "\n　向こう一週間のごみ収集予定が返信されます。"
+        message += "\n・「引っ越し」"
+        message += "\n　引っ越しで住んでいる地区が変わった場合はこちらから変更してください。"
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
 
