@@ -20,7 +20,7 @@ from linebot.models import (
     URIAction,
 )
 from dotenv import load_dotenv
-from read import get_candidate_area, display_all_collection_type, output_collection_data
+from read import get_candidate_area
 from reply_text import create_collection_dates_types_reply
 
 
@@ -64,7 +64,6 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     # ユーザーidをもとにセッションを管理します
-    display_all_collection_type()
     if event.source.user_id not in sessions.keys():
         sessions[event.source.user_id] = {"flag": False, "first": True, "area": None}
 
@@ -108,7 +107,6 @@ def handle_message(event):
         sessions[event.source.user_id]["area"] = event.message.text
         message = f"あなたの地区を「{sessions[event.source.user_id]['area']}」に決定しました。\n"
         message += create_collection_dates_types_reply(sessions[event.source.user_id]["area"])
-        print(output_collection_data(sessions[event.source.user_id]["area"]))
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
     # 地区の変更（引っ越し）

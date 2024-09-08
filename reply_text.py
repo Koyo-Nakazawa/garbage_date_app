@@ -13,7 +13,7 @@ def create_candidate_area_reply(keyword):
     return result
 
 
-# 確定された地区の向こう一週間の収集ごみを
+# 確定された地区の向こう一週間の収集ごみを返す
 def create_collection_dates_types_reply(current_area):
     collection_data = output_collection_data(current_area)
     days_one_week = get_days_one_week()
