@@ -22,7 +22,7 @@ from linebot.models import (
 from dotenv import load_dotenv
 from read import get_candidate_area
 from reply_text import create_collection_dates_types_reply
-
+import time
 
 load_dotenv(override=True)
 
@@ -60,6 +60,16 @@ def callback():
     return "OK"
 
 
+def make_carousel(thumbnail_image_url, garbage_name, url):
+    column = CarouselColumn(
+        thumbnail_image_url=thumbnail_image_url,
+        title=garbage_name,
+        text=f"{garbage_name}の分け方・出し方",
+        actions=[URIAction(label="詳細を確認", uri=url)],
+    )
+    return column
+
+
 # テキストメッセージを受け取ったときの処理
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
@@ -80,6 +90,13 @@ def handle_message(event):
             message = create_collection_dates_types_reply(sessions[event.source.user_id]["area"])
 
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
+        columns = make_carousel("https://placehold.jp/3697c7/ffffff/360x180.png?text=dummy", "ぷらごみ", "/")
+        carousel_template_message = TemplateSendMessage(
+                alt_text='Carousel template',
+                template=CarouselTemplate(columns=columns)
+            )
+        time.sleep(0.4)
+        line_bot_api.push_message(event.source.user_id, carousel_template_message)
 
     # 受け取ったメッセージが「ごみ」以外のとき
     # 初回の町名を受け取ったとき
@@ -102,6 +119,7 @@ def handle_message(event):
             messages = TextSendMessage(text=text)
 
         line_bot_api.reply_message(event.reply_token, messages=messages)
+
     # 候補地から地区名を受け取ったとき
     elif sessions[event.source.user_id]["area"] is None:
         sessions[event.source.user_id]["area"] = event.message.text
