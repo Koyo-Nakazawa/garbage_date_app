@@ -23,9 +23,9 @@ def create_collection_dates_types_reply(current_area):
             if days_one_week[data[0]] == "なし":
                 days_one_week[data[0]] = f"{data[1]}"
             else:
-                days_one_week[data[0]] += f"\n{' '*20}{data[1]}"
+                days_one_week[data[0]] += f"\n{' '*21}{data[1]}"
 
-    result = ""
+    result = f"\n{'-'*18}今日の収集ごみ{'-'*18}\n"
     for i, v in enumerate(days_one_week.items()):
         result += f"{v[0]}  {v[1]}\n"
         if i == 0:
