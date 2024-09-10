@@ -91,7 +91,7 @@ def handle_message(event):
 
         columns = [
             make_carousel(
-                "https://placehold.jp/3697c7/ffffff/360x180.png?text=dummy", "ぷらごみ", url_for("index")
+                "images/ajisai.jpg", "ぷらごみ", url_for("index")
             )
         ]
         carousel_template_message = TemplateSendMessage(
