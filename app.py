@@ -89,14 +89,14 @@ def handle_message(event):
         else:
             message = create_collection_dates_types_reply(sessions[event.source.user_id]["area"])
 
-        # line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
-        columns = make_carousel("https://placehold.jp/3697c7/ffffff/360x180.png?text=dummy", "ぷらごみ", "/")
-        carousel_template_message = TemplateSendMessage(
-                alt_text='Carousel template',
-                template=CarouselTemplate(columns=columns)
-            )
-        time.sleep(0.4)
-        line_bot_api.push_message(event.source.user_id, carousel_template_message)
+        line_bot_api.reply_message(event.reply_token, [TextSendMessage(text=message), TextSendMessage(text="aaa")])
+        # columns = make_carousel("https://placehold.jp/3697c7/ffffff/360x180.png?text=dummy", "ぷらごみ", "/")
+        # carousel_template_message = TemplateSendMessage(
+        #         alt_text='Carousel template',
+        #         template=CarouselTemplate(columns=columns)
+        #     )
+        # time.sleep(0.4)
+        # line_bot_api.push_message(event.source.user_id, carousel_template_message)
 
     # 受け取ったメッセージが「ごみ」以外のとき
     # 初回の町名を受け取ったとき
