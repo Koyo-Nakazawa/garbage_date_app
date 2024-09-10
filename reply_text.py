@@ -17,18 +17,19 @@ def create_candidate_area_reply(keyword):
 def create_collection_dates_types_reply(current_area):
     collection_data = output_collection_data(current_area)
     days_one_week = get_days_one_week()
+    # data[0]->日付, data[1]->ごみ種別
     for data in collection_data:
         if data[0] in days_one_week:
             if days_one_week[data[0]] == "なし":
                 days_one_week[data[0]] = f"{data[1]}"
             else:
-                days_one_week[data[0]] += f" {data[1]}"
+                days_one_week[data[0]] += f"\n{' '*10}{data[1]}"
 
     result = ""
     for i, v in enumerate(days_one_week.items()):
         result += f"{v[0]}  {v[1]}\n"
         if i == 0:
-            result += f"{'-'*8}今後の予定{'-'*8}\n"
+            result += f"{'-'*15}今後の予定{'-'*15}\n"
 
     return result
 
