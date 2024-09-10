@@ -89,7 +89,7 @@ def handle_message(event):
         else:
             message = create_collection_dates_types_reply(sessions[event.source.user_id]["area"])
 
-        columns = make_carousel("https://placehold.jp/3697c7/ffffff/360x180.png?text=dummy", "ぷらごみ", "/")
+        columns = [make_carousel("https://placehold.jp/3697c7/ffffff/360x180.png?text=dummy", "ぷらごみ", "/")]
         carousel_template_message = TemplateSendMessage(
             alt_text="Carousel template", template=CarouselTemplate(columns=columns)
         )
