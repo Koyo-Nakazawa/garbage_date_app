@@ -89,36 +89,19 @@ def handle_message(event):
         else:
             message = create_collection_dates_types_reply(sessions[event.source.user_id]["area"])
 
-        # columns = [make_carousel("images/ajisai.jpg", "ぷらごみ", url_for("index"))]
-        carousel_template_message = TemplateSendMessage(
+        # column = CarouselColumn(text="test")
+        line_bot_api.reply_message(
+            event.reply_token,
             {
                 "type": "template",
-                "altText": "this is a image carousel template",
+                "altText": "this is a carousel template",
                 "template": {
-                    "type": "image_carousel",
+                    "type": "carousel",
                     "columns": [
-                        {
-                            "imageUrl": "images/ajisai.jpg",
-                            "action": {"type": "postback", "label": "Buy", "data": "action=buy&itemid=111"},
-                        },
-                        {
-                            "imageUrl": "images/ajisai.jpg",
-                            "action": {"type": "message", "label": "Yes", "text": "yes"},
-                        },
-                        {
-                            "imageUrl": "images/ajisai.jpg",
-                            "action": {
-                                "type": "uri",
-                                "label": "View detail",
-                                "uri": "http://example.com/page/222",
-                            },
-                        },
+                        {"text": "test"},
                     ],
                 },
-            }
-        )
-        line_bot_api.reply_message(
-            event.reply_token, [TextSendMessage(text=message), carousel_template_message]
+            },
         )
         # time.sleep(0.4)
         # line_bot_api.push_message(event.source.user_id, carousel_template_message)
