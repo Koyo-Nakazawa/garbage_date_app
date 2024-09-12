@@ -96,7 +96,8 @@ def handle_message(event):
                         alt_text='会話ログを表示しています',
                         template=CarouselTemplate(columns=columns_list)
                         )
-        line_bot_api.reply_message(event.reply_token, messages=[message, carousel_template_message])
+        line_bot_api.reply_message(event.reply_token, messages=message)
+        line_bot_api.push_message(event.source.user_id, messages=carousel_template_message)
 
 
     # 受け取ったメッセージが「ごみ」以外のとき
