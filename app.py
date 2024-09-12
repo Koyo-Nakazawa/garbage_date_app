@@ -113,8 +113,9 @@ def handle_message(event):
         carousel_template_message = TemplateSendMessage(
             alt_text="会話ログを表示しています", template=CarouselTemplate(columns=columns_list)
         )
+        text_message = TextSendMessage(text='こんにちは！カルーセルメッセージを送信します。')
         line_bot_api.reply_message(
-            event.reply_token, [TemplateSendMessage(text=message), carousel_template_message]
+            event.reply_token, [text_message, carousel_template_message]
         )
         # line_bot_api.push_message(event.source.user_id, messages=carousel_template_message)
 
