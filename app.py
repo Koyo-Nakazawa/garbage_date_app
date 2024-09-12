@@ -89,22 +89,15 @@ def handle_message(event):
         else:
             message = create_collection_dates_types_reply(sessions[event.source.user_id]["area"])
 
-        # column = CarouselColumn(text="test")
-        line_bot_api.reply_message(
-            event.reply_token,
-            {
-                "type": "template",
-                "altText": "this is a carousel template",
-                "template": {
-                    "type": "carousel",
-                    "columns": [
-                        {"text": "test"},
-                    ],
-                },
-            },
-        )
-        # time.sleep(0.4)
-        # line_bot_api.push_message(event.source.user_id, carousel_template_message)
+        columns_list = []
+        columns_list.append(CarouselColumn(title="タイトルだよ", text="よろしくね", actions=[PostbackAction(label="詳細を表示", data=f"詳細表示"), PostbackAction(label="削除", data=f"削除")]))
+        columns_list.append(CarouselColumn(title="タイトルだよ", text="よろしくね", actions=[PostbackAction(label="詳細を表示", data=f"詳細表示"), PostbackAction(label="削除", data=f"削除")]))
+        carousel_template_message = TemplateSendMessage(
+                        alt_text='会話ログを表示しています',
+                        template=CarouselTemplate(columns=columns_list)
+                        )
+        line_bot_api.reply_message(event.reply_token, messages=carousel_template_message)
+
 
     # 受け取ったメッセージが「ごみ」以外のとき
     # 初回の町名を受け取ったとき
