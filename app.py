@@ -21,6 +21,10 @@ from linebot.models import (
     ImageSendMessage,
     ImageCarouselTemplate,
     ImageCarouselColumn,
+    ImagemapSendMessage,
+    BaseSize,
+    URIImagemapAction,
+    ImagemapArea,
 )
 from dotenv import load_dotenv
 from read import get_candidate_area
@@ -93,28 +97,41 @@ def handle_message(event):
         else:
             message = create_collection_dates_types_reply(sessions[event.source.user_id]["area"])
             text_message = TextSendMessage(text=message)
-            image_carousel_template = ImageCarouselTemplate(
-                columns=[
-                    ImageCarouselColumn(
-                        image_url="https://garbage-date-app.onrender.com/static/images/bincan.png",
-                        action=URIAction(
-                            label="ウェブサイト1",
-                            uri="https://garbage-date-app.onrender.com/static/images/bincan.png",
-                        ),
+            # image_carousel_template = ImageCarouselTemplate(
+            #     columns=[
+            #         ImageCarouselColumn(
+            #             image_url="https://garbage-date-app.onrender.com/static/images/bincan.png",
+            #             action=URIAction(
+            #                 label="ウェブサイト1",
+            #                 uri="https://garbage-date-app.onrender.com/static/images/bincan.png",
+            #             ),
+            #         ),
+            #         ImageCarouselColumn(
+            #             image_url="https://garbage-date-app.onrender.com/static/images/hunengomi.png",
+            #             action=URIAction(
+            #                 label="ウェブサイト2",
+            #                 uri="https://garbage-date-app.onrender.com/static/images/hunengomi.png",
+            #             ),
+            #         ),
+            #     ]
+            # )
+            imagemap_message = ImagemapSendMessage(
+                base_url="https://garbage-date-app.onrender.com/static/images/bincan.png",
+                alt_text="イメージマップメッセージ",
+                base_size=BaseSize(height=1040, width=1040),
+                actions=[
+                    URIImagemapAction(
+                        link_uri="https://garbage-date-app.onrender.com/static/images/hunengomi.png",
+                        area=ImagemapArea(x=0, y=0, width=520, height=520),
                     ),
-                    ImageCarouselColumn(
-                        image_url="https://garbage-date-app.onrender.com/static/images/hunengomi.png",
-                        action=URIAction(
-                            label="ウェブサイト2",
-                            uri="https://garbage-date-app.onrender.com/static/images/hunengomi.png",
-                        ),
+                    URIImagemapAction(
+                        link_uri="https://garbage-date-app.onrender.com/static/images/kanengomi.png",
+                        area=ImagemapArea(x=520, y=0, width=520, height=520),
                     ),
-                ]
+                ],
             )
-            template_message = TemplateSendMessage(
-                alt_text=message, template=image_carousel_template
-            )
-            line_bot_api.reply_message(event.reply_token, [text_message, template_message])
+            # template_message = TemplateSendMessage(alt_text=message, template=image_carousel_template)
+            line_bot_api.reply_message(event.reply_token, [text_message, imagemap_message])
 
     # 受け取ったメッセージが「ごみ」以外のとき
     # 初回の町名を受け取ったとき
@@ -145,26 +162,24 @@ def handle_message(event):
         message += create_collection_dates_types_reply(sessions[event.source.user_id]["area"])
         text_message = TextSendMessage(text=message)
         image_carousel_template = ImageCarouselTemplate(
-                columns=[
-                    ImageCarouselColumn(
-                        image_url="https://garbage-date-app.onrender.com/static/images/bincan.png",
-                        action=URIAction(
-                            label="ウェブサイト1",
-                            uri="https://garbage-date-app.onrender.com/static/images/bincan.png",
-                        ),
+            columns=[
+                ImageCarouselColumn(
+                    image_url="https://garbage-date-app.onrender.com/static/images/bincan.png",
+                    action=URIAction(
+                        label="ウェブサイト1",
+                        uri="https://garbage-date-app.onrender.com/static/images/bincan.png",
                     ),
-                    ImageCarouselColumn(
-                        image_url="https://garbage-date-app.onrender.com/static/images/hunengomi.png",
-                        action=URIAction(
-                            label="ウェブサイト2",
-                            uri="https://garbage-date-app.onrender.com/static/images/hunengomi.png",
-                        ),
+                ),
+                ImageCarouselColumn(
+                    image_url="https://garbage-date-app.onrender.com/static/images/hunengomi.png",
+                    action=URIAction(
+                        label="ウェブサイト2",
+                        uri="https://garbage-date-app.onrender.com/static/images/hunengomi.png",
                     ),
-                ]
-            )
-        template_message = TemplateSendMessage(
-            alt_text=message, template=image_carousel_template
+                ),
+            ]
         )
+        template_message = TemplateSendMessage(alt_text=message, template=image_carousel_template)
         line_bot_api.reply_message(event.reply_token, [text_message, template_message])
 
     # 地区の変更（引っ越し）
