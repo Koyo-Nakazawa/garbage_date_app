@@ -41,10 +41,10 @@ handler = WebhookHandler(os.environ["CHANNEL_SECRET"])
 sessions = {}
 garbage_type_images = {
     "可燃ごみ": "kanengomi.png",
-    "スプレー缶・カセットボンベ": "spraycan.png",
-    "プラスチックごみ": "plastic.png",
+    "スプレー缶等": "spraycan.png",
+    "プラごみ": "plastic.png",
     "不燃ごみ": "hunengomi.png",
-    "びん・カン・ペットボトル": "bincan.png",
+    "びんカンペット": "bincan.png",
     "古紙": "koshi.png",
 }
 
@@ -109,14 +109,14 @@ def handle_message(event):
             columns = []
             columns.append(
                 make_image_carousel(
-                    f"https://garbage-date-app.onrender.com/static/images/{garbage_type_images['びん・カン・ペットボトル']}",
-                    'びん・カン・ペットボトル'
+                    f"https://garbage-date-app.onrender.com/static/images/{garbage_type_images['びんカンペット']}",
+                    'びんカンペット'
                 )
             )
             columns.append(
                 make_image_carousel(
-                    f"https://garbage-date-app.onrender.com/static/images/{garbage_type_images['スプレー缶・カセットボンベ']}",
-                    'スプレー缶・カセットボンベ'
+                    f"https://garbage-date-app.onrender.com/static/images/{garbage_type_images['スプレー缶等']}",
+                    'スプレー缶等'
                 )
             )
             image_carousel_template = ImageCarouselTemplate(columns=columns)
