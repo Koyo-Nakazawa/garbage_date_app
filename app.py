@@ -93,7 +93,7 @@ def handle_message(event):
         columns_list = []
         columns_list.append(
             CarouselColumn(
-                thumbnail_image_url="https://garbage-date-app.onrender.com/images/ajisai.jpg",
+                thumbnail_image_url="https://garbage-date-app.onrender.com/static/images/ajisai.jpg",
                 title="あじさい",
                 text="Good Luck!!",
                 actions=[
@@ -107,7 +107,7 @@ def handle_message(event):
         )
         columns_list.append(
             CarouselColumn(
-                thumbnail_image_url="https://garbage-date-app.onrender.com/images/ajisai.jpg",
+                thumbnail_image_url="https://garbage-date-app.onrender.com/static/images/ajisai.jpg",
                 title="タイトルだよ",
                 text="よろしくね",
                 actions=[
