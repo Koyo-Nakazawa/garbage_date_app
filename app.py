@@ -16,8 +16,9 @@ from linebot.models import (
     CarouselTemplate,
     CarouselColumn,
     PostbackAction,
-    CarouselTemplate,
+    CarouselTemplate,   
     URIAction,
+    ImageSendMessage
 )
 from dotenv import load_dotenv
 from read import get_candidate_area
@@ -92,11 +93,15 @@ def handle_message(event):
         columns_list = []
         columns_list.append(
             CarouselColumn(
-                thumbnail_image_url='images/ajisai.jpg',
+                thumbnail_image_url="https://images.unsplash.com/photo-1607247098731-5bf6416d2e8c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                 title="あじさい",
                 text="Good Luck!!",
                 actions=[
-                    URIAction(uri="https://www.city.morioka.iwate.jp/kurashi/gomi_recycle/gomi/1018503/index.html", label="盛岡市のHPへ", data=f"詳細表示"),
+                    URIAction(
+                        uri="https://www.city.morioka.iwate.jp/kurashi/gomi_recycle/gomi/1018503/index.html",
+                        label="盛岡市のHPへ",
+                        data=f"詳細表示",
+                    ),
                 ],
             )
         )
@@ -113,10 +118,12 @@ def handle_message(event):
         carousel_template_message = TemplateSendMessage(
             alt_text="会話ログを表示しています", template=CarouselTemplate(columns=columns_list)
         )
-        text_message = TextSendMessage(text='こんにちは！カルーセルメッセージを送信します。')
-        line_bot_api.reply_message(
-            event.reply_token, [text_message, carousel_template_message]
+        text_message = TextSendMessage(text="こんにちは！カルーセルメッセージを送信します。")
+        image_message = ImageSendMessage(
+            original_content_url="images/ajisai.jpg",  # 実際の画像URL
+            preview_image_url="images/ajisai.jpg",  # プレビュー画像URL
         )
+        line_bot_api.reply_message(event.reply_token, [text_message, carousel_template_message, image_message])
         # line_bot_api.push_message(event.source.user_id, messages=carousel_template_message)
 
     # 受け取ったメッセージが「ごみ」以外のとき
