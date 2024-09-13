@@ -39,6 +39,14 @@ app = Flask(__name__)
 line_bot_api = LineBotApi(os.environ["ACCESS_TOKEN"])
 handler = WebhookHandler(os.environ["CHANNEL_SECRET"])
 sessions = {}
+garbage_type_images = {
+    "可燃ごみ": "kanengomi.png",
+    "スプレー缶・カセットボンベ": "spraycan.png",
+    "プラスチックごみ": "plastic.png",
+    "不燃ごみ": "hunengomi.png",
+    "びん・カン・ペットボトル": "bincan.png",
+    "古紙": "koshi.png",
+}
 
 
 @app.route("/")
@@ -67,12 +75,13 @@ def callback():
     return "OK"
 
 
-def make_carousel(thumbnail_image_url, garbage_name, url):
-    column = CarouselColumn(
-        thumbnail_image_url=thumbnail_image_url,
-        title=garbage_name,
-        text=f"{garbage_name}の分け方・出し方",
-        actions=[URIAction(label="詳細を確認", uri=url)],
+def make_image_carousel(image_uri, garbage_name):
+    column = ImageCarouselColumn(
+        image_url=image_uri,
+        action=URIAction(
+            label=garbage_name,
+            uri=image_uri,
+        ),
     )
     return column
 
@@ -97,25 +106,20 @@ def handle_message(event):
         else:
             message = create_collection_dates_types_reply(sessions[event.source.user_id]["area"])
             text_message = TextSendMessage(text=message)
-            image_carousel_template = ImageCarouselTemplate(
-                columns=[
-                    ImageCarouselColumn(
-                        image_url="https://garbage-date-app.onrender.com/static/images/bincan.png",
-                        action=URIAction(
-                            label="ウェブサイト1",
-                            uri="https://garbage-date-app.onrender.com/static/images/bincan.png",
-                        ),
-                    ),
-                    ImageCarouselColumn(
-                        image_url="https://garbage-date-app.onrender.com/static/images/hunengomi.png",
-                        action=URIAction(
-                            label="ウェブサイト2",
-                            uri="https://garbage-date-app.onrender.com/static/images/hunengomi.png",
-                        ),
-                    ),
-                ]
+            columns = []
+            columns.append(
+                make_image_carousel(
+                    f"https://garbage-date-app.onrender.com/static/images/{garbage_type_images['びん・カン・ペットボトル']}",
+                    'びん・カン・ペットボトル'
+                )
             )
-
+            columns.append(
+                make_image_carousel(
+                    f"https://garbage-date-app.onrender.com/static/images/{garbage_type_images['スプレー缶・カセットボンベ']}",
+                    'スプレー缶・カセットボンベ'
+                )
+            )
+            image_carousel_template = ImageCarouselTemplate(columns=columns)
             template_message = TemplateSendMessage(alt_text=message, template=image_carousel_template)
             line_bot_api.reply_message(event.reply_token, [template_message, text_message])
 
@@ -147,24 +151,20 @@ def handle_message(event):
         message = f"あなたの地区を「{sessions[event.source.user_id]['area']}」に決定しました。\n"
         message += create_collection_dates_types_reply(sessions[event.source.user_id]["area"])
         text_message = TextSendMessage(text=message)
-        image_carousel_template = ImageCarouselTemplate(
-            columns=[
-                ImageCarouselColumn(
-                    image_url="https://garbage-date-app.onrender.com/static/images/bincan.png",
-                    action=URIAction(
-                        label="ウェブサイト1",
-                        uri="https://garbage-date-app.onrender.com/static/images/bincan.png",
-                    ),
-                ),
-                ImageCarouselColumn(
-                    image_url="https://garbage-date-app.onrender.com/static/images/hunengomi.png",
-                    action=URIAction(
-                        label="ウェブサイト2",
-                        uri="https://garbage-date-app.onrender.com/static/images/hunengomi.png",
-                    ),
-                ),
-            ]
+        columns = []
+        columns.append(
+            make_image_carousel(
+                f"https://garbage-date-app.onrender.com/static/images/{garbage_type_images['びん・カン・ペットボトル']}",
+                'びん・カン・ペットボトル'
+            )
         )
+        columns.append(
+            make_image_carousel(
+                f"https://garbage-date-app.onrender.com/static/images/{garbage_type_images['スプレー缶・カセットボンベ']}",
+                'スプレー缶・カセットボンベ'
+            )
+        )
+        image_carousel_template = ImageCarouselTemplate(columns=columns)
         template_message = TemplateSendMessage(alt_text=message, template=image_carousel_template)
         line_bot_api.reply_message(event.reply_token, [template_message, text_message])
 
