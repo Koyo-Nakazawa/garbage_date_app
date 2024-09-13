@@ -92,6 +92,7 @@ def handle_message(event):
         # 初回でなければ、収集日の情報を返信する
         else:
             message = create_collection_dates_types_reply(sessions[event.source.user_id]["area"])
+            text_message = TextSendMessage(text=message)
             image_carousel_template = ImageCarouselTemplate(
                 columns=[
                     ImageCarouselColumn(
@@ -113,7 +114,7 @@ def handle_message(event):
             template_message = TemplateSendMessage(
                 alt_text=message, template=image_carousel_template
             )
-            line_bot_api.reply_message(event.reply_token, template_message)
+            line_bot_api.reply_message(event.reply_token, [text_message, template_message])
 
     # 受け取ったメッセージが「ごみ」以外のとき
     # 初回の町名を受け取ったとき
@@ -142,7 +143,29 @@ def handle_message(event):
         sessions[event.source.user_id]["area"] = event.message.text
         message = f"あなたの地区を「{sessions[event.source.user_id]['area']}」に決定しました。\n"
         message += create_collection_dates_types_reply(sessions[event.source.user_id]["area"])
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
+        text_message = TextSendMessage(text=message)
+        image_carousel_template = ImageCarouselTemplate(
+                columns=[
+                    ImageCarouselColumn(
+                        image_url="https://garbage-date-app.onrender.com/static/images/bincan.png",
+                        action=URIAction(
+                            label="ウェブサイト1",
+                            uri="https://garbage-date-app.onrender.com/static/images/bincan.png",
+                        ),
+                    ),
+                    ImageCarouselColumn(
+                        image_url="https://garbage-date-app.onrender.com/static/images/hunengomi.png",
+                        action=URIAction(
+                            label="ウェブサイト2",
+                            uri="https://garbage-date-app.onrender.com/static/images/hunengomi.png",
+                        ),
+                    ),
+                ]
+            )
+        template_message = TemplateSendMessage(
+            alt_text=message, template=image_carousel_template
+        )
+        line_bot_api.reply_message(event.reply_token, [text_message, [text_message, template_message]])
 
     # 地区の変更（引っ越し）
     elif event.message.text == "引っ越し":
