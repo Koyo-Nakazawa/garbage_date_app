@@ -108,20 +108,23 @@ def handle_message(event):
             message = create_collection_dates_types_reply(sessions[event.source.user_id]["area"])
             text_message = TextSendMessage(text=message)
             collection_data = output_collection_data(sessions[event.source.user_id]["area"])
-            garbage_type_names = map(lambda x:x[1], collection_data)
+            garbage_type_names = map(lambda x: x[1], collection_data)
             cnt = 0
+            registered_list = []
             columns = []
             for garbate_type_name in garbage_type_names:
                 if cnt > 3:
                     break
                 images_data = garbage_type_images[garbate_type_name]
-                columns.append(
-                    make_image_carousel(
-                        f"https://garbage-date-app.onrender.com/static/images/{images_data[1]}",
-                        images_data[0]
+                if images_data[0] in registered_list:
+                    columns.append(
+                        make_image_carousel(
+                            f"https://garbage-date-app.onrender.com/static/images/{images_data[1]}",
+                            images_data[0],
+                        )
                     )
-                )
-                cnt += 1
+                    registered_list.append(images_data[0])
+                    cnt += 1
             image_carousel_template = ImageCarouselTemplate(columns=columns)
             template_message = TemplateSendMessage(alt_text=message, template=image_carousel_template)
             line_bot_api.reply_message(event.reply_token, [template_message, text_message])
@@ -155,20 +158,23 @@ def handle_message(event):
         message += create_collection_dates_types_reply(sessions[event.source.user_id]["area"])
         text_message = TextSendMessage(text=message)
         collection_data = output_collection_data(sessions[event.source.user_id]["area"])
-        garbage_type_names = map(lambda x:x[1], collection_data)
+        garbage_type_names = map(lambda x: x[1], collection_data)
         cnt = 0
+        registered_list = []
         columns = []
         for garbate_type_name in garbage_type_names:
             if cnt > 3:
                 break
             images_data = garbage_type_images[garbate_type_name]
-            columns.append(
-                make_image_carousel(
-                    f"https://garbage-date-app.onrender.com/static/images/{images_data[1]}",
-                    images_data[0]
+            if images_data[0] in registered_list:
+                columns.append(
+                    make_image_carousel(
+                        f"https://garbage-date-app.onrender.com/static/images/{images_data[1]}",
+                        images_data[0],
+                    )
                 )
-            )
-            cnt += 1
+                registered_list.append(images_data[0])
+                cnt += 1
         image_carousel_template = ImageCarouselTemplate(columns=columns)
         template_message = TemplateSendMessage(alt_text=message, template=image_carousel_template)
         line_bot_api.reply_message(event.reply_token, [template_message, text_message])
