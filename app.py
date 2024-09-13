@@ -87,7 +87,8 @@ def handle_message(event):
         # 初回であれば、エリア特定のやりとりをする
         if sessions[event.source.user_id]["first"]:
             message = "町名を入力してください（初回のみ）"
-            line_bot_api.reply_message(event.reply_token, message=message)
+            text_message = TextSendMessage(text=message)
+            line_bot_api.reply_message(event.reply_token, text_message)
         # 初回でなければ、収集日の情報を返信する
         else:
             message = create_collection_dates_types_reply(sessions[event.source.user_id]["area"])
