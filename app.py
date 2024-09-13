@@ -92,11 +92,11 @@ def handle_message(event):
         columns_list = []
         columns_list.append(
             CarouselColumn(
-                title="タイトルだよ",
-                text="よろしくね",
+                thumbnail_image_url='images/ajisai.jpg',
+                title="あじさい",
+                text="Good Luck!!",
                 actions=[
                     URIAction(uri="https://www.city.morioka.iwate.jp/kurashi/gomi_recycle/gomi/1018503/index.html", label="盛岡市のHPへ", data=f"詳細表示"),
-                    PostbackAction(label="削除", data=f"削除"),
                 ],
             )
         )
