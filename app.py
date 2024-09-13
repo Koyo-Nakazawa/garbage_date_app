@@ -87,69 +87,32 @@ def handle_message(event):
         # 初回であれば、エリア特定のやりとりをする
         if sessions[event.source.user_id]["first"]:
             message = "町名を入力してください（初回のみ）"
-
+            line_bot_api.reply_message(event.reply_token, message=message)
         # 初回でなければ、収集日の情報を返信する
         else:
             message = create_collection_dates_types_reply(sessions[event.source.user_id]["area"])
-
-        columns_list = []
-        columns_list.append(
-            CarouselColumn(
-                thumbnail_image_url="https://garbage-date-app.onrender.com/static/images/ajisai.jpg",
-                title="あじさい",
-                text="Good Luck!!",
-                actions=[
-                    URIAction(
-                        uri="https://www.city.morioka.iwate.jp/kurashi/gomi_recycle/gomi/1018503/index.html",
-                        label="盛岡市のHPへ",
-                        data=f"詳細表示",
+            image_carousel_template = ImageCarouselTemplate(
+                columns=[
+                    ImageCarouselColumn(
+                        image_url="https://garbage-date-app.onrender.com/static/images/bincan.png",
+                        action=URIAction(
+                            label="ウェブサイト1",
+                            uri="https://garbage-date-app.onrender.com/static/images/bincan.png",
+                        ),
                     ),
-                ],
+                    ImageCarouselColumn(
+                        image_url="https://garbage-date-app.onrender.com/static/images/hunengomi.png",
+                        action=URIAction(
+                            label="ウェブサイト2",
+                            uri="https://garbage-date-app.onrender.com/static/images/hunengomi.png",
+                        ),
+                    ),
+                ]
             )
-        )
-        columns_list.append(
-            CarouselColumn(
-                thumbnail_image_url="https://garbage-date-app.onrender.com/static/images/ajisai.jpg",
-                title="タイトルだよ",
-                text="よろしくね",
-                actions=[
-                    PostbackAction(label="詳細を表示", data=f"詳細表示"),
-                ],
+            template_message = TemplateSendMessage(
+                alt_text=message, template=image_carousel_template
             )
-        )
-        carousel_template_message = TemplateSendMessage(
-            alt_text="会話ログを表示しています", template=CarouselTemplate(columns=columns_list)
-        )
-        text_message = TextSendMessage(text="こんにちは！カルーセルメッセージを送信します。")
-        image_message = ImageSendMessage(
-            original_content_url="https://garbage-date-app.onrender.com/static/images/ajisai.jpg",  # 実際の画像URL
-            preview_image_url="https://garbage-date-app.onrender.com/static/images/ajisai.jpg",  # プレビュー画像URL
-        )
-
-        image_carousel_template = ImageCarouselTemplate(
-            columns=[
-                ImageCarouselColumn(
-                    image_url="https://garbage-date-app.onrender.com/static/images/bincan.png",
-                    action=URIAction(
-                        label="ウェブサイト1",
-                        uri="https://garbage-date-app.onrender.com/static/images/bincan.png",
-                    ),
-                ),
-                ImageCarouselColumn(
-                    image_url="https://garbage-date-app.onrender.com/static/images/hunengomi.png",
-                    action=URIAction(
-                        label="ウェブサイト2",
-                        uri="https://garbage-date-app.onrender.com/static/images/hunengomi.png",
-                    ),
-                ),
-            ]
-        )
-        template_message = TemplateSendMessage(
-            alt_text="イメージカルーセルテンプレート", template=image_carousel_template
-        )
-        line_bot_api.reply_message(event.reply_token, [text_message, template_message])
-
-        # line_bot_api.push_message(event.source.user_id, messages=carousel_template_message)
+            line_bot_api.reply_message(event.reply_token, template_message)
 
     # 受け取ったメッセージが「ごみ」以外のとき
     # 初回の町名を受け取ったとき
