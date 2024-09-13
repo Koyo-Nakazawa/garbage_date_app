@@ -107,11 +107,11 @@ def handle_message(event):
         )
         columns_list.append(
             CarouselColumn(
+                thumbnail_image_url="https://images.unsplash.com/photo-1607247098731-5bf6416d2e8c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                 title="タイトルだよ",
                 text="よろしくね",
                 actions=[
                     PostbackAction(label="詳細を表示", data=f"詳細表示"),
-                    PostbackAction(label="削除", data=f"削除"),
                 ],
             )
         )
