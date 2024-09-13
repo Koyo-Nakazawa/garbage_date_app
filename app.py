@@ -16,9 +16,11 @@ from linebot.models import (
     CarouselTemplate,
     CarouselColumn,
     PostbackAction,
-    CarouselTemplate,   
+    CarouselTemplate,
     URIAction,
-    ImageSendMessage
+    ImageSendMessage,
+    ImageCarouselTemplate,
+    ImageCarouselColumn,
 )
 from dotenv import load_dotenv
 from read import get_candidate_area
@@ -123,7 +125,22 @@ def handle_message(event):
             original_content_url="https://garbage-date-app.onrender.com/static/images/ajisai.jpg",  # 実際の画像URL
             preview_image_url="https://garbage-date-app.onrender.com/static/images/ajisai.jpg",  # プレビュー画像URL
         )
-        line_bot_api.reply_message(event.reply_token, [text_message, carousel_template_message, image_message])
+
+        image_carousel_template = ImageCarouselTemplate(
+            columns=[
+                ImageCarouselColumn(
+                    image_url="https://garbage-date-app.onrender.com/static/images/bincan.png",
+                    action=URIAction(label="ウェブサイト1", uri="https://garbage-date-app.onrender.com/static/images/bincan.png"),
+                ),
+                ImageCarouselColumn(
+                    image_url="https://garbage-date-app.onrender.com/static/images/hunengomi.png",
+                    action=URIAction(label="ウェブサイト2", uri="https://garbage-date-app.onrender.com/static/images/hunengomi.png"),
+                ),
+            ]
+        )
+        line_bot_api.reply_message(
+            event.reply_token, [text_message, image_carousel_template]
+        )
         # line_bot_api.push_message(event.source.user_id, messages=carousel_template_message)
 
     # 受け取ったメッセージが「ごみ」以外のとき
