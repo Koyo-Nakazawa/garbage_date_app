@@ -95,7 +95,7 @@ def handle_message(event):
                 title="タイトルだよ",
                 text="よろしくね",
                 actions=[
-                    PostbackAction(label="詳細を表示", data=f"詳細表示"),
+                    URIAction(uri="https://www.city.morioka.iwate.jp/kurashi/gomi_recycle/gomi/1018503/index.html", label="盛岡市のHPへ", data=f"詳細表示"),
                     PostbackAction(label="削除", data=f"削除"),
                 ],
             )
