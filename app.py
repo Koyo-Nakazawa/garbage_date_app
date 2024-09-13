@@ -116,7 +116,7 @@ def handle_message(event):
                 if cnt > 3:
                     break
                 images_data = garbage_type_images[garbate_type_name]
-                if images_data[0] in registered_list:
+                if images_data[0] not in registered_list:
                     columns.append(
                         make_image_carousel(
                             f"https://garbage-date-app.onrender.com/static/images/{images_data[1]}",
@@ -166,7 +166,7 @@ def handle_message(event):
             if cnt > 3:
                 break
             images_data = garbage_type_images[garbate_type_name]
-            if images_data[0] in registered_list:
+            if images_data[0] not in registered_list:
                 columns.append(
                     make_image_carousel(
                         f"https://garbage-date-app.onrender.com/static/images/{images_data[1]}",
