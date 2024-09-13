@@ -119,11 +119,11 @@ def handle_message(event):
             alt_text="会話ログを表示しています", template=CarouselTemplate(columns=columns_list)
         )
         text_message = TextSendMessage(text="こんにちは！カルーセルメッセージを送信します。")
-        image_message = ImageSendMessage(
-            original_content_url="images/ajisai.jpg",  # 実際の画像URL
-            preview_image_url="images/ajisai.jpg",  # プレビュー画像URL
-        )
-        line_bot_api.reply_message(event.reply_token, [text_message, carousel_template_message, image_message])
+        # image_message = ImageSendMessage(
+        #     original_content_url="images/ajisai.jpg",  # 実際の画像URL
+        #     preview_image_url="images/ajisai.jpg",  # プレビュー画像URL
+        # )
+        line_bot_api.reply_message(event.reply_token, [text_message, carousel_template_message])
         # line_bot_api.push_message(event.source.user_id, messages=carousel_template_message)
 
     # 受け取ったメッセージが「ごみ」以外のとき
