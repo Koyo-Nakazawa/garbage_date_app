@@ -27,7 +27,7 @@ from linebot.models import (
     ImagemapArea,
 )
 from dotenv import load_dotenv
-from read import get_candidate_area
+from read import get_candidate_area, output_collection_data
 from reply_text import create_collection_dates_types_reply
 import time
 
@@ -40,12 +40,12 @@ line_bot_api = LineBotApi(os.environ["ACCESS_TOKEN"])
 handler = WebhookHandler(os.environ["CHANNEL_SECRET"])
 sessions = {}
 garbage_type_images = {
-    "可燃ごみ": "kanengomi.png",
-    "スプレー缶等": "spraycan.png",
-    "プラごみ": "plastic.png",
-    "不燃ごみ": "hunengomi.png",
-    "びんカンペット": "bincan.png",
-    "古紙": "koshi.png",
+    "可燃ごみ": ["可燃ごみ", "kanengomi.png"],
+    "スプレー缶・カセットボンベ": ["スプレー缶等", "spraycan.png"],
+    "プラスチックごみ": ["プラごみ", "plastic.png"],
+    "不燃ごみ": ["不燃ごみ", "hunengomi.png"],
+    "びん・カン・ペットボトル": ["びんカンペット", "bincan.png"],
+    "古紙": ["古紙", "koshi.png"],
 }
 
 
@@ -102,23 +102,26 @@ def handle_message(event):
             message = "町名を入力してください（初回のみ）"
             text_message = TextSendMessage(text=message)
             line_bot_api.reply_message(event.reply_token, text_message)
+
         # 初回でなければ、収集日の情報を返信する
         else:
             message = create_collection_dates_types_reply(sessions[event.source.user_id]["area"])
             text_message = TextSendMessage(text=message)
+            collection_data = output_collection_data(sessions[event.source.user_id]["area"])
+            garbage_type_names = map(lambda x:x[1], collection_data)
+            cnt = 0
             columns = []
-            columns.append(
-                make_image_carousel(
-                    f"https://garbage-date-app.onrender.com/static/images/{garbage_type_images['びんカンペット']}",
-                    'びんカンペット'
+            for garbate_type_name in garbage_type_names:
+                if cnt > 3:
+                    break
+                images_data = garbage_type_images[garbate_type_name]
+                columns.append(
+                    make_image_carousel(
+                        f"https://garbage-date-app.onrender.com/static/images/{images_data[1]}",
+                        images_data[0]
+                    )
                 )
-            )
-            columns.append(
-                make_image_carousel(
-                    f"https://garbage-date-app.onrender.com/static/images/{garbage_type_images['スプレー缶等']}",
-                    'スプレー缶等'
-                )
-            )
+                cnt += 1
             image_carousel_template = ImageCarouselTemplate(columns=columns)
             template_message = TemplateSendMessage(alt_text=message, template=image_carousel_template)
             line_bot_api.reply_message(event.reply_token, [template_message, text_message])
@@ -151,19 +154,21 @@ def handle_message(event):
         message = f"あなたの地区を「{sessions[event.source.user_id]['area']}」に決定しました。\n"
         message += create_collection_dates_types_reply(sessions[event.source.user_id]["area"])
         text_message = TextSendMessage(text=message)
+        collection_data = output_collection_data(sessions[event.source.user_id]["area"])
+        garbage_type_names = map(lambda x:x[1], collection_data)
+        cnt = 0
         columns = []
-        columns.append(
-            make_image_carousel(
-                f"https://garbage-date-app.onrender.com/static/images/{garbage_type_images['びんカンペット']}",
-                'びんカンペット'
+        for garbate_type_name in garbage_type_names:
+            if cnt > 3:
+                break
+            images_data = garbage_type_images[garbate_type_name]
+            columns.append(
+                make_image_carousel(
+                    f"https://garbage-date-app.onrender.com/static/images/{images_data[1]}",
+                    images_data[0]
+                )
             )
-        )
-        columns.append(
-            make_image_carousel(
-                f"https://garbage-date-app.onrender.com/static/images/{garbage_type_images['スプレー缶等']}",
-                'スプレー缶等'
-            )
-        )
+            cnt += 1
         image_carousel_template = ImageCarouselTemplate(columns=columns)
         template_message = TemplateSendMessage(alt_text=message, template=image_carousel_template)
         line_bot_api.reply_message(event.reply_token, [template_message, text_message])
