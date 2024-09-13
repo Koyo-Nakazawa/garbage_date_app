@@ -154,14 +154,14 @@ def handle_message(event):
         columns = []
         columns.append(
             make_image_carousel(
-                f"https://garbage-date-app.onrender.com/static/images/{garbage_type_images['びん・カン・ペットボトル']}",
-                'びん・カン・ペットボトル'
+                f"https://garbage-date-app.onrender.com/static/images/{garbage_type_images['びんカンペット']}",
+                'びんカンペット'
             )
         )
         columns.append(
             make_image_carousel(
-                f"https://garbage-date-app.onrender.com/static/images/{garbage_type_images['スプレー缶・カセットボンベ']}",
-                'スプレー缶・カセットボンベ'
+                f"https://garbage-date-app.onrender.com/static/images/{garbage_type_images['スプレー缶等']}",
+                'スプレー缶等'
             )
         )
         image_carousel_template = ImageCarouselTemplate(columns=columns)

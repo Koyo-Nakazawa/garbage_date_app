@@ -4,35 +4,6 @@ from zoneinfo import ZoneInfo
 import pytz
 
 
-def display_all_area():
-    areas = Areas.select()
-    for area in areas:
-        print(area.area_id, area.area_name, area.collection_type_id)
-
-
-def display_all_garbage_type():
-    garbage_types = GarbageTyeps.select()
-    for garbage_type in garbage_types:
-        print(garbage_type.garbage_type_id, garbage_type.garbage_type_name)
-
-
-def display_all_collection_type():
-    collection_types = CollectionTypes.select()
-    cnt = 0
-    jst = pytz.timezone('Asia/Tokyo')
-    for collection_type in collection_types:
-        cnt += 1
-        date = collection_type.collection_date
-        print(
-            collection_type.collection_type_id,
-            collection_type.garbage_type_id,
-            # collection_type.collection_date,
-            jst.localize(date)
-        )
-        if cnt >= 10:
-            break
-
-
 # 向こう一週間のごみ収集データの取得 リストで返す
 def output_collection_data(current_area):
     join_cond = CollectionTypes.collection_type_id == Areas.collection_type_id
