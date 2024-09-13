@@ -165,7 +165,7 @@ def handle_message(event):
         template_message = TemplateSendMessage(
             alt_text=message, template=image_carousel_template
         )
-        line_bot_api.reply_message(event.reply_token, [text_message, [text_message, template_message]])
+        line_bot_api.reply_message(event.reply_token, [text_message, template_message])
 
     # 地区の変更（引っ越し）
     elif event.message.text == "引っ越し":
