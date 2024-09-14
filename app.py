@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, abort, render_template, url_for
+from flask import Flask, request, abort, render_template
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import (
@@ -29,7 +29,6 @@ from linebot.models import (
 from dotenv import load_dotenv
 from read import get_candidate_area, output_collection_data
 from reply_text import create_collection_dates_types_reply
-import time
 
 load_dotenv(override=True)
 
@@ -207,5 +206,3 @@ def handle_message(event):
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
-    # port = int(os.getenv("PORT", 8000))
-    # app.run(port=port, debug=True)
