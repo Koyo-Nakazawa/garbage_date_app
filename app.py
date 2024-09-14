@@ -49,6 +49,17 @@ garbage_type_images = {
 }
 
 
+def make_image_carousel(image_uri, garbage_name):
+    column = ImageCarouselColumn(
+        image_url=image_uri,
+        action=URIAction(
+            label=garbage_name,
+            uri=image_uri,
+        ),
+    )
+    return column
+
+
 @app.route("/")
 def index():
     test = create_collection_dates_types_reply("箱清水一～二丁目").split("\n")
@@ -73,17 +84,6 @@ def callback():
         abort(400)
 
     return "OK"
-
-
-def make_image_carousel(image_uri, garbage_name):
-    column = ImageCarouselColumn(
-        image_url=image_uri,
-        action=URIAction(
-            label=garbage_name,
-            uri=image_uri,
-        ),
-    )
-    return column
 
 
 # テキストメッセージを受け取ったときの処理
