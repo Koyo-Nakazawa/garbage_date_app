@@ -1,7 +1,6 @@
 from config import Areas, GarbageTyeps, CollectionTypes
 import datetime
 from zoneinfo import ZoneInfo
-import pytz
 
 
 # 向こう一週間のごみ収集データの取得 リストで返す
@@ -25,10 +24,11 @@ def output_collection_data(current_area):
 
     result = []
     day_names = ["月", "火", "水", "木", "金", "土", "日"]
-    jst = pytz.timezone('Asia/Tokyo')
+    # jst = pytz.timezone('Asia/Tokyo')
     for data in collection_dates:
         date = data.collection_date
-        date = data.collection_date.astimezone(jst)
+        # date = data.collection_date.astimezone(jst)
+        date = date + datetime.timedelta(hours=9)
         result.append(
             [
                 f"{date.strftime('%m/%d')} ({day_names[date.weekday()]})",
