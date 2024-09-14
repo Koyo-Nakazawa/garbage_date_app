@@ -6,8 +6,12 @@
     <title>test</title>
 </head>
 <body>
-    {% for t in test %}
-        <p>{{ t }}</p>
-    {% endfor %}
+    <h1>Post Message</h1>
+
+    <form action="/" method="post">
+        <input type="text" name="message">
+        <input type="submit" value="投稿">
+    </form>
+
 </body>
 </html>

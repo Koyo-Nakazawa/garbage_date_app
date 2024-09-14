@@ -60,13 +60,19 @@ def make_image_carousel(image_uri, garbage_name):
     return column
 
 
-@app.route("/")
-def index():
-    test = create_collection_dates_types_reply("箱清水一～二丁目").split("\n")
+@app.route("/", methods=["GET"])
+def index_get():
+    return render_template("index.html")
+
+
+@app.route("/", methods=["POST"])
+def index_post():
     user_ids = list(sessions.keys())
-    messages = TextSendMessage(text="test")
-    line_bot_api.multicast(user_ids, messages)
-    return render_template("index.html", test=test)
+    messages = TextSendMessage(text=request.form['message'])
+    if user_ids:
+        line_bot_api.multicast(user_ids, messages)
+
+    return render_template("index.html")
 
 
 @app.route("/callback", methods=["POST"])
