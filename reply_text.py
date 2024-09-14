@@ -27,11 +27,11 @@ def create_collection_dates_types_reply(current_area):
             else:
                 days_one_week[data[0]] += f"\n{' '*21}{data[1]}"
 
-    result = f"\n{'-'*18}今日の収集ごみ{'-'*18}\n"
+    result = f"\n{'-'*5}今日の収集ごみ{'-'*31}\n"
     for i, v in enumerate(days_one_week.items()):
         result += f"{v[0]}  {v[1]}\n"
         if i == 0:
-            result += f"{'-'*20}今後の予定{'-'*20}\n"
+            result += f"{'-'*5}今後の予定{'-'*35}\n"
 
     return result
 
