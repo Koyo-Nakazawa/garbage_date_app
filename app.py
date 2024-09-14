@@ -123,8 +123,6 @@ def handle_message(event):
             registered_list = []
             columns = []
             for garbate_type_name in garbage_type_names:
-                if cnt > 3:
-                    break
                 images_data = garbage_type_images[garbate_type_name]
                 if images_data[0] not in registered_list:
                     columns.append(
@@ -175,8 +173,6 @@ def handle_message(event):
         registered_list = []
         columns = []
         for garbate_type_name in garbage_type_names:
-            if cnt > 3:
-                break
             images_data = garbage_type_images[garbate_type_name]
             if images_data[0] not in registered_list:
                 columns.append(
