@@ -63,6 +63,9 @@ def make_image_carousel(image_uri, garbage_name):
 @app.route("/")
 def index():
     test = create_collection_dates_types_reply("箱清水一～二丁目").split("\n")
+    user_ids = sessions.keys()
+    messages = "test"
+    line_bot_api.multicast(user_ids, messages)
     return render_template("index.html", test=test)
 
 
