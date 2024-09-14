@@ -116,6 +116,7 @@ def handle_message(event):
             message = create_collection_dates_types_reply(sessions[event.source.user_id]["area"])
             text_message = TextSendMessage(text=message)
             collection_data = output_collection_data(sessions[event.source.user_id]["area"])
+            print(collection_data)
             garbage_type_names = map(lambda x: x[1], collection_data)
             cnt = 0
             registered_list = []
@@ -166,6 +167,7 @@ def handle_message(event):
         message += create_collection_dates_types_reply(sessions[event.source.user_id]["area"])
         text_message = TextSendMessage(text=message)
         collection_data = output_collection_data(sessions[event.source.user_id]["area"])
+        print(collection_data)
         garbage_type_names = map(lambda x: x[1], collection_data)
         cnt = 0
         registered_list = []
