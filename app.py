@@ -67,7 +67,7 @@ def index_get():
 @app.route("/", methods=["POST"])
 def index_post():
     user_ids = list(sessions.keys())
-    messages = TextSendMessage(text=request.form['message'])
+    messages = TextSendMessage(text=request.form["message"])
     if user_ids:
         line_bot_api.multicast(user_ids, messages)
 
@@ -117,8 +117,8 @@ def handle_message(event):
             text_message = TextSendMessage(text=message)
             collection_data = output_collection_data(sessions[event.source.user_id]["area"])
             print(collection_data)
-            print(sorted(collection_data))
-            garbage_type_names = map(lambda x: x[1], sorted(collection_data))
+            print(sorted(collection_data, key=lambda x: x[0]))
+            garbage_type_names = map(lambda x: x[1], sorted(collection_data, key=lambda x: x[0]))
             cnt = 0
             registered_list = []
             columns = []
@@ -169,8 +169,8 @@ def handle_message(event):
         text_message = TextSendMessage(text=message)
         collection_data = output_collection_data(sessions[event.source.user_id]["area"])
         print(collection_data)
-        print(sorted(collection_data))
-        garbage_type_names = map(lambda x: x[1], sorted(collection_data))
+        print(sorted(collection_data, key=lambda x: x[0]))
+        garbage_type_names = map(lambda x: x[1], sorted(collection_data, key=lambda x: x[0]))
         cnt = 0
         registered_list = []
         columns = []
