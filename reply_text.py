@@ -6,7 +6,7 @@ from read import output_collection_data
 def get_days_one_week():
     day_names = ["日", "月", "火", "水", "木", "金", "土"]
     days = {}
-    today = datetime.datetime.now()
+    today = datetime.datetime.now() + datetime.timedelta(hours=9)
     days[f"{today.strftime('%m/%d')} ({day_names[int(today.strftime('%w'))]})"] = "なし"
     for i in range(1, 8):
         next_date = today + datetime.timedelta(days=i)
