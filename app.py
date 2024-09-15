@@ -195,7 +195,7 @@ def handle_message(event):
         message += "\n・「収集日確認」（初回のみ地区の選択）"
         message += "\n　向こう一週間のごみ収集予定が返信されます。"
         message += "\n・「引っ越し」"
-        message += "\n　引っ越しで住んでいる地区が変わった場合はこちらから変更してくださ。"
+        message += "\n　引っ越しで住んでいる地区が変わった場合はこちらから変更してください。"
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
 
